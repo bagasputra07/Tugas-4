@@ -4,10 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> Polimorfisme dan Abstraksi</title>
+  <title>Polimorfisme dan Abstraksi</title>
 
   <style>
- body {
+    body {
       background: radial-gradient(circle at 20% 30%, #0a0f1e, #03060c);
       font-family: 'Orbitron', 'Segoe UI', 'Courier New', monospace;
       color: #ffe6b3;
@@ -282,13 +282,13 @@
   <div class="container">
 
     <h1>Review Sesi 4</h1>
-    <p><b>Nama:</b> Bagas Putra Andeza</p>
-    <p><b>NIM:</b> 251410003</p>
-    <p><b>Kelas:</b> SI2A</p>
+    <p><strong>Nama:</strong> Bagas Putra Andeza</p>
+    <p><strong>NIM:</strong> 251410003</p>
+    <p><strong>Kelas:</strong> SI2A</p>
 
     <div class="card">
       <ul>
-        <li> Review Sesi 3 – Pewarisan
+        <li>Review Sesi 3 – Pewarisan
             Inheritance: 
             extends keyword
             super() untuk panggil constructor parent
@@ -331,7 +331,7 @@ void main() {
         <li><b>Konsep:</b> Objek dari subclass dapat diperlakukan sebagai objek dari superclass</li>
         <li><b>Parameterized Constructor:</b> ClassName(this.param)</li>
         <li><b>Contoh:</b> Semua Kucing , Anjing , Burung adalah Hewan</li>
-        <li><b> i.Compile-time polymorphism:</b> Method overloading (tidak didukung Dart)</li>
+        <li><b>i.Compile-time polymorphism:</b> Method overloading (tidak didukung Dart)</li>
         <li><b>ii. Runtime polymorphism:</b> Method overriding (didukung Dart)</li>
       </ol>
       <pre>
@@ -366,7 +366,7 @@ bentuk2.gambar();  // Output: Menggambar persegi
       </button>
     </div>
 
-<h2>  Manfaat Polimorfisme</h2>
+<h2>Manfaat Polimorfisme</h2>
     <div class="card">
       <ul>
       <li>
@@ -374,14 +374,11 @@ bentuk2.gambar();  // Output: Menggambar persegi
         2. Extensibility: Mudah menambah tipe baru
         3. Code Reusability: Method umum di superclass
         4. Maintainability: Perubahan mudah dikelola
-      </li> </ul>
+      </li>
+      </ul>
     </div>
 
-
-
-    
-
-    <h2>2.is dan as Operator</h2>
+    <h2>2. is dan as Operator</h2>
     <div class="card">
       <p>
        <ul><li>
@@ -420,7 +417,7 @@ void main() {
       </button>
     </div>
 
-    <h2> Praktik 1 – Polimorfisme dengan List</h2>
+    <h2>Praktik 1 – Polimorfisme dengan List</h2>
     <div class="card">
     <pre>
 // Nama: Bagas Putra Andeza
@@ -468,7 +465,7 @@ void main() {
       
     </div>
 
-    <h2> Pengantar Abstraksi</h2>
+    <h2>Pengantar Abstraksi</h2>
     <div class="card">
 <pre>
 Konsep: Menyembunyikan detail implementasi, hanya menunjukkan
@@ -480,7 +477,7 @@ iii. Fleksibilitas implementasi
 </pre>
  </div>
 
-    <h2>3.  Abstract Class</h2>
+    <h2>3. Abstract Class</h2>
     <div class="card">
       <p>
        Tidak bisa diinstansiasi langsung
@@ -533,12 +530,12 @@ void main() {
       </button>
     </div>
 
-    <h2>4.Abstract Method</h2>
+    <h2>4. Abstract Method</h2>
     <div class="card">
       <p>
        <pre>
-  Method tanpa body (implementasi)
-  Harus di-override di subclass
+Method tanpa body (implementasi)
+Harus di-override di subclass
        </pre>
       </p>
 
@@ -579,11 +576,11 @@ void main() {
     <div class="card">
       <p>
         <pre>
-  Fakta: sejak Dart 3.0 dart punya keyword 
-  interface
-  Cara: Semua interface class adalah implicit interface
-  Gunakan 
-  implements untuk mengimplementasi interface
+Fakta: sejak Dart 3.0 dart punya keyword 
+interface class
+Cara: Semua class adalah implicit interface
+Gunakan 
+implements untuk mengimplementasi interface
         </pre>
       </p>
 
@@ -633,51 +630,48 @@ void main() {
     <tbody>
       
         <tr>
-            <td>Hubungan</td>
-            <td><span class="badge badge-is-a">"is-a"</span> (adalah)</td>
-            <td><span class="badge badge-can-do">"can-do"</span> (bisa melakukan)</td>
+            <td>Hubungan</th>
+            <td><span class="badge badge-is-a">"is-a"</span> (adalah)</th>
+            <td><span class="badge badge-can-do">"can-do"</span> (bisa melakukan)</th>
         </tr>
-        
        
         <tr>
-            <td>Inheritance</td>
-            <td>Mewarisi implementasi <span class="check">✓</span></td>
-            <td>Hanya kontrak <span class="cross">✗</span></td>
+            <td>Inheritance</th>
+            <td>Mewarisi implementasi <span class="check">✓</span></th>
+            <td>Hanya kontrak <span class="cross">✗</span></th>
         </tr>
         
+        <tr>
+            <td>Method</th>
+            <td>Bisa concrete/abstract</th>
+            <td>Semua harus di-implement <span class="cross">✗</span></th>
+          </tr>
       
         <tr>
-            <td>Method</td>
-            <td>Bisa concrete/abstract</td>
-            <td>Semua harus di-implement <span class="cross">✗</span></td>
-         </tr>
-        
+            <td>Single/Multiple</th>
+            <td>Ya (single inheritance) <span class="check">✓</span></th>
+            <td>Banyak (multiple) <span class="check">✓</span></th>
+          </tr>
       
         <tr>
-            <td>Single/Multiple</td>
-            <td>Ya (single inheritance) <span class="check">✓</span></td>
-            <td>Banyak (multiple) <span class="check">✓</span></td>
-         </tr>
-      
-        <tr>
-            <td>Keyword</td>
-            <td><code style="background:rgba(255,255,255,0.1); padding:2px 8px; border-radius:6px;">extends</code></td>
-            <td><code style="background:rgba(255,255,255,0.1); padding:2px 8px; border-radius:6px;">implements</code></td>
-         </tr>
+            <td>Keyword</th>
+            <td><code style="background:rgba(255,255,255,0.1); padding:2px 8px; border-radius:6px;">extends</code></th>
+            <td><code style="background:rgba(255,255,255,0.1); padding:2px 8px; border-radius:6px;">implements</code></th>
+          </tr>
 
         <tr>
-            <td>Contoh</td>
+            <td>Contoh</th>
             <td>
                 <code>class Mobil extends Kendaraan</code>
                 <span class="hint">Mobil IS-A Kendaraan</span>
-            </td>
+             </th>
             <td>
                 <code>class Bird implements Flyable</code>
                 <span class="hint">Bird CAN-DO Flyable</span>
-            </td>
-         </tr>
+             </th>
+          </tr>
     </tbody>
-</table>
+  </table>
 </div>
     
     <h2>Static Members dan Method</h2>
@@ -715,7 +709,7 @@ print('Result : ${MathUtils.add(10, 20)}');
       </button>
     </div>
 
-    <h2>Praktik 2- sistem pembayaran</h2>
+    <h2>Praktik 2 - sistem pembayaran</h2>
     <div class="card">
       <pre>
 // Nama: Bagas Putra Andeza
@@ -766,7 +760,7 @@ void main() {
       </button>
     </div>
 
-    <h2> Studi Kasus: Sistem Bentuk Geometri</h2>
+    <h2>Studi Kasus: Sistem Bentuk Geometri</h2>
     <div class="card">
       <pre>
 // Nama: Bagas Putra Andeza
@@ -832,11 +826,10 @@ void main() {
 
     <h2>Latihan</h2>
     <div class="card">
-      <h2>1. Buat abstract/interface class bekerja()Pekerja dengan method abstract/non abstract
-          2. Buat 3 class yang mengimplementasi: Programmer , Dokter , 
-          3. Buat list 
-          List<Pekerja> dan demonstrasikan polimorfisme</h2>
-      <h2>Jawaban Soal 1,2,3</h2>
+      <p><strong>1. Buat abstract class Pekerja dengan method bekerja()</strong></p>
+      <p><strong>2. Buat 3 class yang mengimplementasi: Programmer, Dokter, Guru</strong></p>
+      <p><strong>3. Buat list List&lt;Pekerja&gt; dan demonstrasikan polimorfisme</strong></p>
+      <h3>Jawaban Soal 1, 2, 3</h3>
       <pre>
 // Nama: Bagas Putra Andeza
 // Nim: 251410003
@@ -967,9 +960,10 @@ void tampilkanSemuaPekerja(List<Pekerja> pekerjaList) {
       <button class="btn" onclick="openModal('22de0c8902ed4fcba0312a2efd0123cd')">
         Lihat Kode
       </button>
-<h2>4.buat class "Tablet" (Mewarisi komputer,Kamera dan Telepon)</h2>
-<h2>Jawaban Soal 4</h2>
-<pre>
+      
+      <p><strong>4. Buat class "Tablet" (Mewarisi Komputer, Kamera dan Telepon)</strong></p>
+      <h3>Jawaban Soal 4</h3>
+      <pre>
 // Nama: Bagas Putra Andeza
 // Nim: 251410003
 // Kelas: SI2A
@@ -1180,17 +1174,14 @@ void main() {
       <button class="btn" onclick="openModal('dbc8655a276285105b4ec988785cf258')">
         Lihat Kode
       </button>
-    <h2>5.Buat class MathUtils dengan static methods untuk factorial, cek bilangan
-prima, Membulatkan double ke desimal tertentu, Menghasilkan bilangan acak
-integer dan double dalam range [min, max], Menghitung rata-rata dari list angka,
-dan Menghitung median dari list angka</h2>
-<h2>Jawaban Soal 5</h2>
+      
+      <p><strong>5. Buat class MathUtils dengan static methods untuk factorial, cek bilangan prima, membulatkan double ke desimal tertentu, menghasilkan bilangan acak integer dan double dalam range [min, max], menghitung rata-rata dari list angka, dan menghitung median dari list angka</strong></p>
+      <h3>Jawaban Soal 5</h3>
       <pre>
-        
 // Nama: Bagas Putra Andeza
 // Nim: 251410003
 // Kelas: SI2A
-        // Soal 5
+// Soal 5
 import 'dart:math';
 
 class MathUtils {
@@ -1333,7 +1324,7 @@ void main() {
       </button>
     </div>
 
-    <h2>Challange</h2>
+    <h2>Challenge</h2>
     <div class="card">
       <pre>
 // Nama   : Bagas Putra Andeza
@@ -1548,15 +1539,11 @@ void main() {
     <footer>
       <h2>Kesimpulan</h2>
       <pre>
-<p>
-  <pre>
 1. Polimorfisme: Objek child dapat diperlakukan sebagai parent
 2. Abstract class: Template dengan method abstract/concrete
 3. Interface: Kontrak yang harus diimplementasi
-4. multiple inheritance: mewarisi fungsi dari dua atau lebih hierarki class yang
-berbeda
-     </pre>
-        </p>
+4. Multiple inheritance: mewarisi fungsi dari dua atau lebih hierarki class yang berbeda
+      </pre>
     </footer>
 
   </div>
@@ -1575,7 +1562,7 @@ berbeda
       const iframe = document.getElementById("modalIframe");
 
       // Load link secara otomatis saat diklik
-      iframe.src = `https://dartpad.dev/embed-dart.html?id=${gistId}&null_safety=true&run=true&theme=light`;
+      iframe.src = `https://dartpad.dev/embed-dart.html?id=${gistId}&null_safety=true&run=true&theme=dark`;
       modal.style.display = "block";
       document.body.style.overflow = "hidden"; // Biar ga bisa scroll saat modal buka
     }
