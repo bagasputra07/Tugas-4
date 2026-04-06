@@ -1,643 +1,342 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Pixel Art OOP: Polimorfisme & Abstraksi | Retro Coding</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            background: #1a2a1f;
-            font-family: 'Courier New', 'VT323', 'Press Start 2P', monospace;
-            padding: 2rem 1rem;
-            color: #b3ff9e;
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;
-        }
+<head:
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Star Wars: Polimorfisme & Abstraksi</title>
 
-        /* pixelated container */
-        .pixel-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            background: #0f1a0c;
-            border: 4px solid #7cfc00;
-            box-shadow: 8px 8px 0 #2c4d1e;
-            padding: 1.5rem;
-        }
+  <style>
+    /* ===== STAR WARS THEME ===== */
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Share+Tech+Mono&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        /* header pixel */
-        .pixel-header {
-            text-align: center;
-            border-bottom: 4px dashed #7cfc00;
-            padding-bottom: 1rem;
-            margin-bottom: 2rem;
-        }
+    body {
+      background: radial-gradient(ellipse at 30% 40%, #0a0f1a 0%, #020408 100%);
+      font-family: 'Orbitron', 'Share Tech Mono', monospace;
+      color: #ffeaac;
+      line-height: 1.6;
+      padding: 40px 20px;
+      position: relative;
+    }
 
-        .pixel-title {
-            font-size: 2.2rem;
-            letter-spacing: 2px;
-            text-shadow: 3px 3px 0 #2b5e1a;
-            color: #e9ffb4;
-            background: #1f3a18;
-            display: inline-block;
-            padding: 0.5rem 1.5rem;
-            border: 2px solid #b3ff9e;
-            box-shadow: inset -2px -2px 0 #2e5c1a, inset 2px 2px 0 #c4ffa2;
-        }
+    /* BINTANG JATUH & NEBULA */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(1px 1px at 15px 60px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 70px 150px, #ffefb0, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 300px 80px, #f5f0c0, rgba(0,0,0,0));
+      background-size: 250px 250px, 180px 180px, 300px 300px;
+      background-repeat: repeat;
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        .sub-pixel {
-            font-size: 1rem;
-            margin-top: 12px;
-            color: #b2ff6e;
-            background: #1c2c16;
-            display: inline-block;
-            padding: 4px 12px;
-        }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      position: relative;
+      z-index: 2;
+    }
 
-        /* grid style pixel card */
-        .pixel-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-            margin-top: 30px;
-        }
+    /* HEADER ALa JUDUL STAR WARS */
+    h1 {
+      text-align: center;
+      font-size: 3.2rem;
+      letter-spacing: 6px;
+      font-weight: 800;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #f9e45b, #e6b422, #b97f10);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 12px #ffc10780;
+      margin-bottom: 8px;
+      word-break: keep-all;
+    }
 
-        .pixel-card {
-            background: #182012;
-            border: 3px solid #6f9e4f;
-            flex: 1 1 380px;
-            padding: 1rem 1.2rem;
-            transition: transform 0.1s step-end;
-            box-shadow: 5px 5px 0 #2f4824;
-        }
+    .subtitle {
+      text-align: center;
+      font-family: 'Share Tech Mono', monospace;
+      color: #ffdd88;
+      border-bottom: 1px solid #f5b642;
+      display: inline-block;
+      width: auto;
+      margin: 0 auto 25px;
+      padding-bottom: 6px;
+      letter-spacing: 2px;
+    }
 
-        .pixel-card:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 7px 7px 0 #4c7a32;
-            border-color: #c3ff8a;
-        }
+    .identity {
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      border-left: 5px solid #ffcd4a;
+      padding: 12px 20px;
+      border-radius: 14px;
+      font-family: 'Share Tech Mono', monospace;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.6);
+    }
 
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            border-left: 12px solid #7cfc00;
-            padding-left: 10px;
-            margin-bottom: 12px;
-            background: #253d1c;
-            display: inline-block;
-            width: 100%;
-        }
+    h2 {
+      font-size: 1.9rem;
+      margin: 45px 0 20px 0;
+      border-left: 8px solid #ffcd4a;
+      padding-left: 18px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #ffefb0;
+      text-shadow: 0 0 4px #ffb347;
+    }
 
-        .code-block {
-            background: #0c1209;
-            padding: 12px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            color: #c6ffa3;
-            border: 2px solid #5c9442;
-            white-space: pre-wrap;
-            overflow-x: auto;
-            margin: 12px 0;
-            border-radius: 0px;
-        }
+    /* KARTU HOLOCRON */
+    .card {
+      background: rgba(8, 12, 22, 0.85);
+      backdrop-filter: blur(6px);
+      border: 1px solid #ffcd4a55;
+      border-radius: 28px;
+      padding: 28px;
+      margin-bottom: 28px;
+      transition: all 0.25s ease;
+      box-shadow: 0 15px 30px -12px black;
+    }
 
-        .output-demo {
-            background: #000000aa;
-            background: #1e2a18;
-            padding: 10px;
-            border-left: 6px solid #a5ff6e;
-            font-weight: bold;
-            margin-top: 10px;
-            font-size: 0.9rem;
-        }
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: #ffd966;
+      background: rgba(6, 10, 20, 0.94);
+      box-shadow: 0 20px 35px -8px #000000cc;
+    }
 
-        button.pixel-btn {
-            background: #2f5822;
-            border: none;
-            font-family: monospace;
-            font-weight: bold;
-            padding: 6px 12px;
-            margin-top: 8px;
-            color: #e3ffc7;
-            border-bottom: 3px solid #95d46a;
-            cursor: pointer;
-            transition: 0.05s linear;
-            font-size: 0.8rem;
-        }
+    pre {
+      background: #03060cd9;
+      border: 1px solid #f5a62366;
+      border-radius: 20px;
+      padding: 20px;
+      font-family: 'Share Tech Mono', 'Courier New', monospace;
+      font-size: 13px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #fdebb3;
+      margin: 20px 0;
+      box-shadow: inset 0 0 12px #0000004d;
+    }
 
-        button.pixel-btn:active {
-            transform: translateY(2px);
-            border-bottom: 1px solid #5e9642;
-        }
+    code {
+      background: #00000066;
+      padding: 3px 9px;
+      border-radius: 12px;
+      font-family: monospace;
+      color: #ffcf7a;
+    }
 
-        hr {
-            border-color: #4c7632;
-            margin: 16px 0;
-        }
+    .btn {
+      background: linear-gradient(95deg, #2f2819, #19160c);
+      border: 1px solid #ffcd4a;
+      color: #fff0c0;
+      padding: 8px 22px;
+      border-radius: 60px;
+      font-weight: bold;
+      font-family: 'Orbitron', monospace;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 10px;
+      letter-spacing: 1px;
+    }
 
-        footer {
-            margin-top: 40px;
-            text-align: center;
-            font-size: 0.7rem;
-            border-top: 2px dotted #7cbd4a;
-            padding-top: 20px;
-        }
+    .btn:hover {
+      background: #ffcd4a;
+      color: #080c14;
+      border-color: #fff0b5;
+      box-shadow: 0 0 14px #f5b642;
+      text-shadow: none;
+    }
 
-        @media (max-width: 800px) {
-            .pixel-title {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
+    /* TABEL PERBEDAAN */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #0a0f18dd;
+      border-radius: 24px;
+      overflow: hidden;
+      font-family: 'Share Tech Mono', monospace;
+      backdrop-filter: blur(4px);
+    }
+
+    .comparison-table th {
+      background: #1a241cdd;
+      color: #ffdf9c;
+      font-weight: bold;
+      padding: 14px;
+      border-bottom: 2px solid #f5b642;
+    }
+
+    .comparison-table td {
+      padding: 12px;
+      border-bottom: 1px solid #f5c54255;
+      color: #f5e2b0;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    .badge-is-a {
+      background: #004d40;
+      color: #a3ffcf;
+      border: 1px solid #34d399;
+    }
+
+    .badge-can-do {
+      background: #4a2e00;
+      color: #ffcf8a;
+      border: 1px solid #ffa500;
+    }
+
+    .check {
+      color: #6effa3;
+      font-weight: bold;
+    }
+
+    .cross {
+      color: #ff866b;
+    }
+
+    footer {
+      margin-top: 70px;
+      text-align: center;
+      padding: 20px;
+      border-top: 2px solid #ffcd4a55;
+      font-size: 13px;
+      color: #cbad6e;
+    }
+
+    /* MODAL ala DEATH STAR */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-content {
+      background: #0a0e18f2;
+      width: 92%;
+      max-width: 1000px;
+      margin: 6% auto;
+      border-radius: 32px;
+      border: 1px solid #ffcd4a;
+      padding: 20px;
+      animation: riseUp 0.3s ease;
+    }
+
+    .modal iframe {
+      width: 100%;
+      height: 550px;
+      border-radius: 20px;
+      border: none;
+    }
+
+    .close {
+      color: #ffdfa0;
+      float: right;
+      font-size: 32px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .close:hover {
+      color: #fff3c9;
+      text-shadow: 0 0 8px gold;
+    }
+
+    @keyframes riseUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    hr {
+      margin: 50px 0;
+      border: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #f5b642, #ffcd4a, #f5b642, transparent);
+    }
+
+    .info-card {
+      background: #10161fbb;
+      border-left: 5px solid #ffaa44;
+      padding: 16px;
+      border-radius: 18px;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.7rem;
+    }
+
+    li {
+      margin: 7px 0;
+    }
+  </style>
 </head>
+
 <body>
-<div class="pixel-container">
-    <div class="pixel-header">
-        <div class="pixel-title">◢ PIXEL POLYMORPHISM ◣<br>✦ ABSTRACTION ARENA ✦</div>
-        <div class="sub-pixel">⚡ Uliya Gumpari | 251410008 | SI2A | PIXEL REMASTER ⚡</div>
-        <div style="font-size:12px; margin-top:8px;">🐾 konsep OOP → game retro + monster & hero pixel 🕹️</div>
+
+  <div class="container">
+
+    <h1>✦ POLIMORFISME<br>✦ ABSTRAKSI</h1>
+    <div style="text-align:center; margin-bottom: 8px;">
+      <span class="subtitle">「 THE FORCE OF DART OOP 」</span>
     </div>
 
-    <!-- PENJELASAN SINGKAT TEMA BARU -->
-    <div class="pixel-card" style="margin-bottom:10px;">
-        <div class="card-title">🎮 THEME PIXEL REMIX 🎮</div>
-        <div>Variabel & objek diubah menjadi: <strong>PixelHero, PixelMonster, PowerUp, WeaponMaster</strong><br>
-        Setiap class mewarisi/mengimplementasikan konsep abstrak dan polimorfik. Kode interaktif + demo output!</div>
+    <div class="identity">
+      <span>👨‍🚀 Nama : Azriel Miracle Yuandre</span><br>
+      <span>🆔 NIM : 251410024</span><br>
+      <span>📚 Kelas : SI2A</span><br>
+      <span>⚡ Sesi 4 – Polimorfisme & Abstraksi</span>
     </div>
 
-    <div class="pixel-grid">
-        <!-- CARD 1 : INHERITANCE & POLIMORFISME DASAR -->
-        <div class="pixel-card">
-            <div class="card-title">🔹 01. WARRIOR & MAGE (Polymorph)</div>
-            <div class="code-block">
-                // PixelHero sebagai abstract class
-                abstract class PixelHero {
-                  String name;
-                  PixelHero(this.name);
-                  void attack(); // abstract method
-                  void info() => print('⭐ Hero: $name');
-                }
-                
-                class Warrior extends PixelHero {
-                  Warrior(String name) : super(name);
-                  @override
-                  void attack() => print('⚔️ $name menebas dengan Pedang Pixel!');
-                }
-                
-                class Mage extends PixelHero {
-                  Mage(String name) : super(name);
-                  @override
-                  void attack() => print('🔮 $name melontarkan Fireball pixel!');
-                }
-            </div>
-            <button class="pixel-btn" id="btnHeroDemo">▶ Jalankan Demo Hero</button>
-            <div id="heroOutput" class="output-demo">[Klik tombol]</div>
-        </div>
+    <div class="card">
+      <ul>
+        <li> Review Sesi 3 – Pewarisan
+            Inheritance: 
+            extends keyword
+            super() untuk panggil constructor parent
+            @override untuk override method</li>
+      </ul>
 
-        <!-- CARD 2 : POLIMORFISME DENGAN LIST (MONSTER ARENA) -->
-        <div class="pixel-card">
-            <div class="card-title">🔹 02. ARENA MONSTER (Polymorph List)</div>
-            <div class="code-block">
-                abstract class Monster {
-                  void roar();
-                }
-                
-                class Goblin extends Monster {
-                  @override
-                  void roar() => print('👺 Goblin: GREEee! serangan kecil!');
-                }
-                
-                class Ogre extends Monster {
-                  @override
-                  void roar() => print('👹 Ogre: GROOAR! hancurkan!');
-                }
-                
-                class Dragon extends Monster {
-                  @override
-                  void roar() => print('🐉 Naga: *Api membara* ROOOAR!');
-                }
-                
-                // List polimorfik
-                List<Monster> monsters = [Goblin(), Ogre(), Dragon()];
-            </div>
-            <button class="pixel-btn" id="btnMonsterDemo">🐺 Panggil Monster Roar!</button>
-            <div id="monsterOutput" class="output-demo">[Klik untuk mendengar raungan monster]</div>
-        </div>
-
-        <!-- CARD 3 : ABSTRACT CLASS & METHOD (WEAPON SMITH) -->
-        <div class="pixel-card">
-            <div class="card-title">🔹 03. ABSTRACT WEAPON (Abstraksi)</div>
-            <div class="code-block">
-                abstract class Weapon {
-                  String name;
-                  Weapon(this.name);
-                  void use();   // abstract method
-                  void desc() => print('📦 Senjata: $name');
-                }
-                
-                class Sword extends Weapon {
-                  Sword(String name) : super(name);
-                  @override
-                  void use() => print('🗡️ $name digunakan: tebasan pedang +50 DMG!');
-                }
-                
-                class Bow extends Weapon {
-                  Bow(String name) : super(name);
-                  @override
-                  void use() => print('🏹 $name melesat: panah pixel +35 DMG!');
-                }
-            </div>
-            <button class="pixel-btn" id="btnWeaponDemo">🏆 Uji Senjata Abstrak</button>
-            <div id="weaponOutput" class="output-demo">[Klik untuk aksi]</div>
-        </div>
-
-        <!-- CARD 4 : INTERFACE DENGAN IMPLEMENTS (FLY / POWERUP) -->
-        <div class="pixel-card">
-            <div class="card-title">🔹 04. INTERFACE FLYABLE (POWERUP PIXEL)</div>
-            <div class="code-block">
-                interface class Flyable {
-                  void flyAction();
-                }
-                
-                class JetpackHero implements Flyable {
-                  @override
-                  void flyAction() => print('✈️ Jetpack aktif! Terbang tinggi!');
-                }
-                
-                class MagicWing implements Flyable {
-                  @override
-                  void flyAction() => print('🪶 Sayap peri: melayang dengan kilau pixel!');
-                }
-                
-                class RocketBoots implements Flyable {
-                  @override
-                  void flyAction() => print('🚀 Roket sepatu: blazing fast!');
-                }
-            </div>
-            <button class="pixel-btn" id="btnFlyDemo">🌀 Aktifkan Power Terbang</button>
-            <div id="flyOutput" class="output-demo">[Klik untuk demonstrasi interface]</div>
-        </div>
-
-        <!-- CARD 5 : STATIC MEMBERS (PIXEL MATH) -->
-        <div class="pixel-card">
-            <div class="card-title">🔹 05. STATIC MEMBERS - PixelUtils</div>
-            <div class="code-block">
-                class PixelUtils {
-                  static int pixelPower = 99;
-                  static int addPixel(int a, int b) => a + b + pixelPower;
-                  static String critInfo() => "✨ CRITICAL PIXEL STRIKE! ✨";
-                }
-            </div>
-            <button class="pixel-btn" id="btnStaticDemo">📊 Hitung Statik Pixel</button>
-            <div id="staticOutput" class="output-demo">[Klik untuk statik method]</div>
-        </div>
-
-        <!-- CARD 6 : BONUS STUDI KASUS GEOMETRI PIXEL (versi kubus & segitiga) -->
-        <div class="pixel-card">
-            <div class="card-title">🔹 06. GEOMETRI PIXEL (Abstrak + Polimorf)</div>
-            <div class="code-block">
-                abstract class PixelShape {
-                  double hitungLuas();
-                  String shapeName();
-                }
-                
-                class PixelCube extends PixelShape {
-                  double sisi;
-                  PixelCube(this.sisi);
-                  @override double hitungLuas() => 6 * sisi * sisi;
-                  @override String shapeName() => "Kubus Pixel";
-                }
-                
-                class PixelTriangle extends PixelShape {
-                  double alas, tinggi;
-                  PixelTriangle(this.alas, this.tinggi);
-                  @override double hitungLuas() => 0.5 * alas * tinggi;
-                  @override String shapeName() => "Segitiga Retro";
-                }
-            </div>
-            <button class="pixel-btn" id="btnShapeDemo">📐 Hitung Luas Bentuk</button>
-            <div id="shapeOutput" class="output-demo">[Klik untuk perhitungan luas]</div>
-        </div>
-
-        <!-- CARD 7 : BONUS SYSTEM PEMBAYARAN PIXEL (COIN / GEMS) -->
-        <div class="pixel-card">
-            <div class="card-title">🔹 07. PAYMENT PIXEL (Koin & Kristal)</div>
-            <div class="code-block">
-                abstract class PixelPayment {
-                  void pay(int amount);
-                }
-                
-                class CoinBag implements PixelPayment {
-                  @override
-                  void pay(int amount) => print('💰 Membayar $amount koin emas!');
-                }
-                
-                class CrystalShard implements PixelPayment {
-                  @override
-                  void pay(int amount) => print('💎 Membayar $amount pecahan kristal ajaib');
-                }
-            </div>
-            <button class="pixel-btn" id="btnPayDemo">🪙 Transaksi Pixel Shop</button>
-            <div id="payOutput" class="output-demo">[Klik untuk metode pembayaran]</div>
-        </div>
-
-        <!-- CARD 8 : BONUS PEKERJA versi PIXEL JOB (Adventurer, Blacksmith, Alchemist) -->
-        <div class="pixel-card">
-            <div class="card-title">🔹 08. PIXEL JOB (Polimorfisme Pekerja)</div>
-            <div class="code-block">
-                abstract class PixelWorker {
-                  void work();
-                }
-                
-                class Adventurer implements PixelWorker {
-                  @override void work() => print('🏹 Petualang: mencari harta karun pixel!');
-                }
-                class Blacksmith implements PixelWorker {
-                  @override void work() => print('⚒️ Pandai Besi: menempa armor legendaris.');
-                }
-                class Alchemist implements PixelWorker {
-                  @override void work() => print('🧪 Alkemis: meracik ramuan super.');
-                }
-            </div>
-            <button class="pixel-btn" id="btnWorkerDemo">👥 Panggil Pixel Worker</button>
-            <div id="workerOutput" class="output-demo">[Klik untuk aksi pekerja]</div>
-        </div>
-    </div>
-    <footer>
-        ⚡ Tema Pixel Art - Variabel & Objek diubah menjadi Hero, Monster, Weapon, Powerup, PixelMath ⚡<br>
-        Konsep: Pewarisan, Polimorfisme, Abstract Class, Interface, Static Member.<br>
-        Dart-like JavaScript simulation | inspired by retro game OOP
-    </footer>
-</div>
-
-<script>
-    // ======================== SIMULASI DART STYLE OOP DALAM JS (PIXEL REMIX) ========================
-    // Mendefinisikan ulang class-class dalam javascript untuk demo interaktif
-    
-    // ---- 01. Hero system ----
-    class PixelHero {
-        constructor(name) { this.name = name; }
-        attack() { throw new Error("abstract"); }
-        info() { return `⭐ Hero: ${this.name}`; }
-    }
-    class Warrior extends PixelHero {
-        constructor(name) { super(name); }
-        attack() { return `⚔️ ${this.name} menebas dengan Pedang Pixel!`; }
-    }
-    class Mage extends PixelHero {
-        constructor(name) { super(name); }
-        attack() { return `🔮 ${this.name} melontarkan Fireball pixel!`; }
-    }
-
-    // ---- 02. Monster system ----
-    class Monster { roar() { throw new Error("abstract"); } }
-    class Goblin extends Monster { roar() { return "👺 Goblin: GREEee! serangan kecil!"; } }
-    class Ogre extends Monster { roar() { return "👹 Ogre: GROOAR! hancurkan!"; } }
-    class Dragon extends Monster { roar() { return "🐉 Naga: *Api membara* ROOOAR!"; } }
-
-    // ---- 03. Weapon abstract ----
-    class Weapon {
-        constructor(name) { this.name = name; }
-        use() { throw new Error("abstract"); }
-        desc() { return `📦 Senjata: ${this.name}`; }
-    }
-    class Sword extends Weapon {
-        constructor(name) { super(name); }
-        use() { return `🗡️ ${this.name} digunakan: tebasan pedang +50 DMG!`; }
-    }
-    class Bow extends Weapon {
-        constructor(name) { super(name); }
-        use() { return `🏹 ${this.name} melesat: panah pixel +35 DMG!`; }
-    }
-
-    // ---- 04. Flyable interface ----
-    class Flyable { flyAction() { throw new Error("interface"); } }
-    class JetpackHero extends Flyable { flyAction() { return "✈️ Jetpack aktif! Terbang tinggi!"; } }
-    class MagicWing extends Flyable { flyAction() { return "🪶 Sayap peri: melayang dengan kilau pixel!"; } }
-    class RocketBoots extends Flyable { flyAction() { return "🚀 Roket sepatu: blazing fast!"; } }
-
-    // ---- 05. static members ----
-    class PixelUtils {
-        static pixelPower = 99;
-        static addPixel(a, b) { return a + b + PixelUtils.pixelPower; }
-        static critInfo() { return "✨ CRITICAL PIXEL STRIKE! ✨"; }
-    }
-
-    // ---- 06. shape pixel ----
-    class PixelShape { hitungLuas() { throw new Error("abstract"); } shapeName() { throw new Error("abstract"); } }
-    class PixelCube extends PixelShape {
-        constructor(sisi) { super(); this.sisi = sisi; }
-        hitungLuas() { return 6 * this.sisi * this.sisi; }
-        shapeName() { return "Kubus Pixel"; }
-    }
-    class PixelTriangle extends PixelShape {
-        constructor(alas, tinggi) { super(); this.alas = alas; this.tinggi = tinggi; }
-        hitungLuas() { return 0.5 * this.alas * this.tinggi; }
-        shapeName() { return "Segitiga Retro"; }
-    }
-
-    // ---- 07. Payment pixel ----
-    class PixelPayment { pay(amount) { throw new Error("abstract"); } }
-    class CoinBag extends PixelPayment { pay(amount) { return `💰 Membayar ${amount} koin emas!`; } }
-    class CrystalShard extends PixelPayment { pay(amount) { return `💎 Membayar ${amount} pecahan kristal ajaib`; } }
-
-    // ---- 08. Pixel Worker ----
-    class PixelWorker { work() { throw new Error("abstract"); } }
-    class Adventurer extends PixelWorker { work() { return "🏹 Petualang: mencari harta karun pixel!"; } }
-    class Blacksmith extends PixelWorker { work() { return "⚒️ Pandai Besi: menempa armor legendaris."; } }
-    class Alchemist extends PixelWorker { work() { return "🧪 Alkemis: meracik ramuan super."; } }
-
-    // --- Helper DOM elements ---
-    document.getElementById("btnHeroDemo").addEventListener("click", () => {
-        let warrior = new Warrior("Kael Pixel");
-        let mage = new Mage("Lumina");
-        let output = `${warrior.info()}\n${warrior.attack()}\n${mage.info()}\n${mage.attack()}`;
-        document.getElementById("heroOutput").innerHTML = output.replace(/\n/g, "<br>");
-    });
-    
-    document.getElementById("btnMonsterDemo").addEventListener("click", () => {
-        let monsters = [new Goblin(), new Ogre(), new Dragon()];
-        let result = monsters.map(m => m.roar()).join("<br>");
-        document.getElementById("monsterOutput").innerHTML = result;
-    });
-    
-    document.getElementById("btnWeaponDemo").addEventListener("click", () => {
-        let sword = new Sword("ExcaliPixel");
-        let bow = new Bow("Wind Shooter");
-        let out = `${sword.desc()}<br>${sword.use()}<br>${bow.desc()}<br>${bow.use()}`;
-        document.getElementById("weaponOutput").innerHTML = out;
-    });
-    
-    document.getElementById("btnFlyDemo").addEventListener("click", () => {
-        let flyItems = [new JetpackHero(), new MagicWing(), new RocketBoots()];
-        let msg = flyItems.map(f => f.flyAction()).join("<br>");
-        document.getElementById("flyOutput").innerHTML = msg;
-    });
-    
-    document.getElementById("btnStaticDemo").addEventListener("click", () => {
-        let sum = PixelUtils.addPixel(25, 40);
-        let infoStat = PixelUtils.critInfo();
-        document.getElementById("staticOutput").innerHTML = `🔢 addPixel(25,40) + power ${PixelUtils.pixelPower} = ${sum}<br>${infoStat}`;
-    });
-    
-    document.getElementById("btnShapeDemo").addEventListener("click", () => {
-        let cube = new PixelCube(4);
-        let triangle = new PixelTriangle(6, 8);
-        let luasCube = cube.hitungLuas();
-        let luasTri = triangle.hitungLuas();
-        let out = `📦 ${cube.shapeName()} (sisi=4) => Luas Permukaan = ${luasCube}<br>`;
-        out += `📐 ${triangle.shapeName()} (alas=6, tinggi=8) => Luas = ${luasTri}`;
-        document.getElementById("shapeOutput").innerHTML = out;
-    });
-    
-    document.getElementById("btnPayDemo").addEventListener("click", () => {
-        let payments = [new CoinBag(), new CrystalShard()];
-        let hasil = payments.map((p, idx) => {
-            let amount = idx === 0 ? 250 : 120;
-            return p.pay(amount);
-        }).join("<br>");
-        document.getElementById("payOutput").in        h4 {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin: 1rem 0 0.5rem;
-            color: #334155;
-        }
-
-        .card {
-            background: #f8fafc;
-            border-radius: 1.2rem;
-            padding: 1.2rem;
-            margin: 1.2rem 0;
-            border: 1px solid #e2edff;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-        }
-
-        pre {
-            background: #0f172a;
-            color: #e2e8f0;
-            padding: 1.2rem;
-            border-radius: 1rem;
-            overflow-x: auto;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 0.85rem;
-            margin: 1rem 0;
-            line-height: 1.45;
-            tab-size: 2;
-        }
-
-        code {
-            font-family: 'JetBrains Mono', monospace;
-            background: #eef2ff;
-            padding: 0.2rem 0.4rem;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            color: #1e293b;
-        }
-
-        pre code {
-            background: transparent;
-            padding: 0;
-            color: inherit;
-        }
-
-        .note {
-            background: #fef9e3;
-            border-left: 5px solid #eab308;
-            padding: 1rem;
-            border-radius: 1rem;
-            margin: 1rem 0;
-        }
-
-        .grid-2 {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            margin: 1rem 0;
-        }
-
-        .grid-item {
-            flex: 1 1 300px;
-            background: white;
-            border-radius: 1rem;
-            border: 1px solid #e2e8f0;
-            padding: 1rem;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #ffffff;
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-            margin: 1rem 0;
-        }
-
-        th, td {
-            text-align: left;
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        th {
-            background: #eef2ff;
-            font-weight: 600;
-        }
-
-        @media (max-width: 700px) {
-            .content {
-                padding: 1.2rem;
-            }
-            .header h1 {
-                font-size: 1.6rem;
-            }
-            pre {
-                font-size: 0.75rem;
-            }
-        }
-
-        footer {
-            background: #f1f5f9;
-            text-align: center;
-            padding: 1.5rem;
-            font-size: 0.85rem;
-            color: #475569;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .keyword {
-            color: #facc15;
-            font-weight: 500;
-        }
-
-        .comment {
-            color: #94a3b8;
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-    <div class="header">
-        <h1>📘 Review Sesi 4 &nbsp;•&nbsp; Pemrograman Berorientasi Objek</h1>
-        <div class="student-info">
-            👨‍🎓 <strong>Azriel Miracle Yuandre</strong> &nbsp;|&nbsp; NIM: 251410024 &nbsp;|&nbsp; Kelas: SI2A
-        </div>
-        <div class="badge">Dart Language • Inheritance • Polymorphism • Abstraction • Interface</div>
-    </div>
-
-    <div class="content">
-        <!-- Bagian 1: Inheritance & Pewarisan -->
-        <div class="section">
-            <h2>🧬 1. Inheritance (Pewarisan)</h2>
-            <p><code>extends</code> keyword digunakan untuk mewarisi class parent. <code>super()</code> memanggil constructor parent, dan <code>@override</code> untuk mengubah implementasi method.</p>
-            <div class="card">
-                <h4>📌 Contoh Dasar: Hewan → Kucing</h4>
-                <pre><code>// Nama: Azriel Miracle Yuandre
+      <pre>
+// Nama: Azriel Miracle Yuandre
 // Nim: 251410024
 // Kelas: SI2A
 
@@ -653,749 +352,827 @@ class Kucing extends Hewan {
 void main() {
   Hewan hewan = Hewan();
   Kucing kucing = Kucing();
-
+  
   hewan.bersuara(); // Output: ...
   kucing.bersuara(); // Output: Meong
-}</code></pre>
-            </div>
-            <div class="note">
-                💡 <strong>Catatan:</strong> Dengan inheritance, subclass mewarisi semua method dan properti dari superclass, lalu bisa menambah atau mengubah perilaku.
-            </div>
-        </div>
+}
+  </pre>
 
-        <!-- Bagian 2: Polimorfisme -->
-        <div class="section">
-            <h2>🎭 2. Polimorfisme (Banyak Bentuk)</h2>
-            <p>Objek dari subclass dapat diperlakukan sebagai objek superclass. Dart mendukung <strong>runtime polymorphism</strong> melalui <code>@override</code>.</p>
-            <div class="grid-2">
-                <div class="grid-item">
-                    <h4>🔹 Bentuk → Lingkaran & Persegi</h4>
-                    <pre><code>class Bentuk {
-  void gambar() => print('Menggambar bentuk');
+      <button class="btn" onclick="openModal('41cc1cbe833a270f3ba3667dedb6377a')">
+        🔮 Lihat Kode
+      </button>
+    </div>
+
+    <div class="card">
+      <h3>Pengantar Polimorfisme</h3>
+      <p>Dart menyediakan beberapa mekanisme inisialisasi objek untuk berbagai kebutuhan arsitektur:</p>
+      <ol>
+        <li><b>Arti:</b>  "Banyak bentuk" (poly = banyak, morph = bentuk)</li>
+        <li><b>Konsep:</b> Objek dari subclass dapat diperlakukan sebagai objek dari superclass</li>
+        <li><b>Parameterized Constructor:</b> ClassName(this.param)</li>
+        <li><b>Contoh:</b> Semua Kucing , Anjing , Burung adalah Hewan</li>
+        <li><b> i.Compile-time polymorphism:</b> Method overloading (tidak didukung Dart)</li>
+        <li><b>ii. Runtime polymorphism:</b> Method overriding (didukung Dart)</li>
+      </ol>
+      <pre>
+        // Nama: Azriel Miracle Yuandre
+        // Nim: 251410024
+        // Kelas: SI2A
+
+
+class Bentuk {
+void gambar() => print('Menggambar bentuk');
 }
 class Lingkaran extends Bentuk {
-  @override void gambar() => print('Menggambar lingkaran');
+@override
+void gambar() => print('Menggambar lingkaran');
 }
 class Persegi extends Bentuk {
-  @override void gambar() => print('Menggambar persegi');
+@override
+void gambar() => print('Menggambar persegi');
 }
 void main() {
-  Bentuk bentuk1 = Lingkaran();
-  Bentuk bentuk2 = Persegi();
-  bentuk1.gambar(); // lingkaran
-  bentuk2.gambar(); // persegi
-}</code></pre>
-                </div>
-                <div class="grid-item">
-                    <h4>🔹 Manfaat Polimorfisme</h4>
-                    <ul style="margin-left: 1.2rem;">
-                        <li>✔ Fleksibilitas: kode bekerja dengan berbagai tipe</li>
-                        <li>✔ Extensibility: mudah menambah tipe baru</li>
-                        <li>✔ Code Reusability: method umum di superclass</li>
-                        <li>✔ Maintainability: perubahan lebih mudah dikelola</li>
-                    </ul>
-                </div>
-            </div>
+Bentuk bentuk1 = Lingkaran();  // Polimorfisme
+Bentuk bentuk2 = Persegi();    
+// Polimorfisme
+bentuk1.gambar();  // Output: Menggambar lingkaran
+bentuk2.gambar();  // Output: Menggambar persegi
 
-            <h3>🔍 Operator <code>is</code> dan <code>as</code></h3>
-            <pre><code>class Kendaraan {}
+}
+
+      </pre>
+       <button class="btn" onclick="openModal('64d31adb0bd4421a5b48a7b84766dfda')">
+        🛸 Lihat Kode
+      </button>
+    </div>
+
+<h2>  Manfaat Polimorfisme</h2>
+    <div class="card">
+      <ul>
+      <li>
+         1. Fleksibilitas: Kode dapat bekerja dengan berbagai tipe
+        2. Extensibility: Mudah menambah tipe baru
+        3. Code Reusability: Method umum di superclass
+        4. Maintainability: Perubahan mudah dikelola
+      </li> </ul>
+    </div>
+
+
+    
+
+    <h2>2.is dan as Operator</h2>
+    <div class="card">
+      <p>
+       <ul><li>
+        is : Mengecek tipe objek
+        as : Casting tipe objek
+       </li></ul>
+      </p>
+
+      <pre>
+// Nama   : Azriel Miracle Yuandre
+// Nim    : 251410024
+// Kelas  : SI2A
+
+class Kendaraan {}
+
 class Mobil extends Kendaraan {
   void klakson() => print('Tin!');
 }
+
 void main() {
   Kendaraan k = Mobil();
+  
   if (k is Mobil) {
-    k.klakson();   // aman dengan is
+    k.klakson();
   }
-  (k as Mobil).klakson();   // casting langsung
-  (k as Mobil?)?.klakson(); // null-aware casting
-}</code></pre>
+  
+  (k as Mobil).klakson();
+  
+  (k as Mobil?)?.klakson();
+}
 
-            <h3>📦 Praktik 1 – Polimorfisme dengan List</h3>
-            <pre><code>class Hewan { void bersuara() => print('...'); }
-class Kucing extends Hewan { @override void bersuara() => print('Meong'); }
-class Anjing extends Hewan { @override void bersuara() => print('Guk Guk'); }
-class Burung extends Hewan { @override void bersuara() => print('Cit Cit'); }
+  </pre>
+
+      <button class="btn" onclick="openModal('15c6cee8fbb2e9bf2de27f7faaa2d444')">
+        🎯 Lihat Kode
+      </button>
+    </div>
+
+    <h2> Praktik 1 – Polimorfisme dengan List</h2>
+    <div class="card">
+    <pre>
+// Nama   : Azriel Miracle Yuandre
+// Nim    : 251410024
+// Kelas  : Si2A
+      class Hewan {
+  void bersuara() => print('...');
+}
+
+class Kucing extends Hewan {
+  @override
+  void bersuara() => print('Meong');
+}
+
+class Anjing extends Hewan {
+  @override
+  void bersuara() => print('Guk Guk');
+}
+
+class Burung extends Hewan {
+  @override
+  void bersuara() => print('Cit Cit');
+}
 
 void main() {
-  List&lt;Hewan&gt; daftarHewan = [Kucing(), Anjing(), Burung(), Kucing(), Anjing()];
+  // Membuat list dengan berbagai objek subclass
+  List<Hewan> daftarHewan = [
+    Kucing(),
+    Anjing(),
+    Burung(),
+    Kucing(),
+    Anjing(),
+  ];
+  
+  // Loop list dan panggil method bersuara()
+  print('Suara-suara hewan:');
   for (var hewan in daftarHewan) {
     hewan.bersuara();
   }
-}</code></pre>
-        </div>
+}
+    </pre>
+  <button class="btn" onclick="openModal('87958f06e6ead274cc976e3913dda31d')">
+        🐉 Lihat Kode
+      </button>
+      
+    </div>
 
-        <!-- Bagian 3: Abstraksi & Abstract Class -->
-        <div class="section">
-            <h2>📦 3. Abstraksi & Abstract Class</h2>
-            <p>Menyembunyikan detail implementasi, hanya menampilkan fungsionalitas. <strong>Abstract class</strong> tidak bisa diinstansiasi langsung, bisa memiliki method abstract (tanpa tubuh) dan concrete.</p>
-            <pre><code>abstract class Kendaraan {
-  String? merk;
-  void start();      // method abstract
-  void stop() {      // concrete method
+    <h2> Pengantar Abstraksi</h2>
+    <div class="card">
+<pre>
+Konsep: Menyembunyikan detail implementasi, hanya menunjukkan
+fungsionalitas
+Tujuan:
+i. Fokus pada "apa" bukan "bagaimana"
+ii. Kontrak yang harus dipenuhi
+iii. Fleksibilitas implementasi
+</pre>
+ </div>
+
+    <h2>3.  Abstract Class</h2>
+    <div class="card">
+      <p>
+       Tidak bisa diinstansiasi langsung
+        Dapat memiliki method abstract (tanpa implementasi) dan concrete (dengan
+        implementasi)
+      </p>
+
+      <pre>
+// Nama   : Azriel Miracle Yuandre
+// Nim    : 251410024
+// Kelas  : Si2A
+
+abstract class Kendaraan {
+  String? merk;  // Field concrete
+  
+  void start();  // Method abstract
+  
+  void stop() {  // Method concrete
     print('Kendaraan berhenti');
   }
 }
+
 class Mobil extends Kendaraan {
-  @override void start() => print('Mobil ${merk ?? 'tanpa merk'} menyala');
-  @override void stop() => print('Mobil ${merk ?? 'tanpa merk'} berhenti');
+  @override
+  void start() {
+    print('Mobil ${merk ?? 'tanpa merk'} menyala');
+  }
+  
+  // Optional: override method stop jika ingin perilaku berbeda
+  @override
+  void stop() {
+    print('Mobil ${merk ?? 'tanpa merk'} berhenti');
+  }
 }
-void main() {
-  Mobil mobil1 = Mobil()..merk = 'Toyota';
-  mobil1.start(); // Mobil Toyota menyala
-}</code></pre>
 
-            <h3>🧩 Abstract Method & Interface di Dart</h3>
-            <p>Method abstract wajib di-override oleh subclass. Sejak Dart 3.0, <code>interface class</code> eksplisit tersedia, namun setiap class bisa menjadi implicit interface dengan keyword <code>implements</code>.</p>
-            <div class="grid-2">
-                <div class="grid-item">
-                    <h4>🎸 AlatMusik (abstract method)</h4>
-                    <pre><code>abstract class AlatMusik {
-  void mainkan();
-  void info() => print('Ini alat musik');
+void main() {
+  Mobil mobil1 = Mobil();
+  mobil1.merk = 'Toyota';
+  mobil1.start();  // Output: Mobil Toyota menyala
+  mobil1.stop();   // Output: Mobil Toyota berhenti
+  
+  Mobil mobil2 = Mobil();
+  mobil2.start();  // Output: Mobil tanpa merk menyala
+  mobil2.stop();   // Output: Mobil tanpa merk berhenti
 }
+  </pre>
+
+      <button class="btn" onclick="openModal('ee643f115bd1e132a1774de9f6fe1ceb')">
+        🧩 Lihat Kode
+      </button>
+    </div>
+
+    <h2>4.Abstract Method</h2>
+    <div class="card">
+      <p>
+       <pre>
+  Method tanpa body (implementasi)
+  Harus di-override di subclass
+       </pre>
+      </p>
+
+      <pre>
+// Nama   : Azriel Miracle Yuandre
+// Nim    : 251410024
+// Kelas  : Si2A
+
+abstract class AlatMusik {
+  void mainkan();  // Abstract method
+  
+  void info() {    // Concrete method
+    print('Ini adalah alat musik');
+  }
+}
+
 class Gitar extends AlatMusik {
-  @override void mainkan() => print('Jreng jreng...');
-}</code></pre>
-                </div>
-                <div class="grid-item">
-                    <h4>✈️ Interface Flyable (implements)</h4>
-                    <pre><code>abstract interface class Flyable {
-  void terbang();
+  @override
+  void mainkan() {
+    print('Jreng jreng...');
+  }
 }
+
+void main() {
+  Gitar gitar = Gitar();
+  
+  gitar.mainkan();  // Output: Jreng jreng...
+  gitar.info();     // Output: Ini adalah alat musik
+}
+  </pre>
+
+      <button class="btn" onclick="openModal('70ae74d84992152c2f879540fb3d00c6')">
+        🎸 Lihat Kode
+      </button>
+    </div>
+
+    <h2>5. Interface di Dart</h2>
+    <div class="card">
+      <p>
+        <pre>
+  Fakta: sejak Dart 3.0 dart punya keyword 
+  interface
+  Cara: Semua interface class adalah implicit interface
+  Gunakan 
+  implements untuk mengimplementasi interface
+        </pre>
+      </p>
+
+      <pre>
+// Nama   : Azriel Miracle Yuandre
+// Nim    : 251410024
+// Kelas  : SI2A
+
+abstract interface class Flyable {
+  void terbang(); 
+}
+
 class Bird implements Flyable {
-  @override void terbang() => print('Burung terbang tinggi');
+  @override
+  void terbang() => print('Burung terbang tinggi');
 }
+
 class Plane implements Flyable {
-  @override void terbang() => print('Pesawat terbang cepat');
-}</code></pre>
-                </div>
-            </div>
+  @override
+  void terbang() => print('Pesawat terbang cepat');
+}
 
-            <h3>📊 Perbedaan extends vs implements</h3>
-            <table>
-                <thead>
-                    <tr><th>Aspect</th><th>extends</th><th>implements</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Hubungan</td><td>is-a (adalah)</td><td>can-do (bisa melakukan)</td></tr>
-                    <tr><td>Inheritance</td><td>Mewarisi implementasi ✓</td><td>Hanya kontrak ✗</td></tr>
-                    <tr><td>Method</td><td>Bisa concrete/abstract</td><td>Semua harus diimplement ulang</td></tr>
-                    <tr><td>Multiple</td><td>Tidak (single)</td><td>Ya (multiple implements)</td></tr>
-                </tbody>
-            </table>
-        </div>
+void main() {
+  Bird burung = Bird();
+  Plane pesawat = Plane();
+  
+  burung.terbang();   // Output: Burung terbang tinggi
+  pesawat.terbang();  // Output: Pesawat terbang cepat
+}
+  </pre>
 
-        <!-- Static Members -->
-        <div class="section">
-            <h2>⚙️ 4. Static Members & Method</h2>
-            <p>Properti atau method yang dimiliki oleh class itu sendiri, diakses langsung via <strong>ClassName.member</strong> tanpa instansiasi.</p>
-            <pre><code>class MathUtils {
-  static double pi = 3.14;
-  static int add(int x, int y) => x + y;
+      <button class="btn" onclick="openModal('85559010d8033d30c41a40e85eb3a936')">
+        🚀 Lihat Kode
+      </button>
+    </div>
+
+    <h2>Perbedaan extends vs implements</h2>
+<div class="card">
+    <table class="comparison-table">
+    <thead>
+        <tr>
+            <th>Aspect</th>
+            <th>extends</th>
+            <th>implements</th>
+        </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+            <td>Hubungan</td>
+            <td><span class="badge badge-is-a">"is-a"</span> (adalah)</td>
+            <td><span class="badge badge-can-do">"can-do"</span> (bisa melakukan)</td>
+        </tr>
+       
+        <tr>
+            <td>Inheritance</td>
+            <td>Mewarisi implementasi <span class="check">✓</span></td>
+            <td>Hanya kontrak <span class="cross">✗</span></td>
+        </tr>
+        
+      
+        <tr>
+            <td>Method</td>
+            <td>Bisa concrete/abstract</td>
+            <td>Semua harus di-implement <span class="cross">✗</span></td>
+          </tr>
+        
+      
+        <tr>
+            <td>Single/Multiple</td>
+            <td>Ya (single inheritance) <span class="check">✓</span></td>
+            <td>Banyak (multiple) <span class="check">✓</span></td>
+          </tr>
+      
+        <tr>
+            <td>Keyword</td>
+            <td><code style="background:rgba(255,255,255,0.1); padding:2px 8px; border-radius:6px;">extends</code></td>
+            <td><code style="background:rgba(255,255,255,0.1); padding:2px 8px; border-radius:6px;">implements</code></td>
+          </tr>
+
+        <tr>
+            <td>Contoh</td>
+            <td>
+                <code>class Mobil extends Kendaraan</code>
+                <span class="hint">Mobil IS-A Kendaraan</span>
+             </td>
+            <td>
+                <code>class Bird implements Flyable</code>
+                <span class="hint">Bird CAN-DO Flyable</span>
+             </td>
+          </tr>
+    </tbody>
+  
+</div>
+    
+    <h2>Static Members dan Method</h2>
+    <div class="card">
+      <ul>
+        <li>
+          Static members adalah properti atau method yang dimiliki oleh class itu
+          sendiri, bukan oleh objek class. Static member diakses langsung melalui
+          class name.
+          Properti dan method static sangat berguna untuk membuat utility class
+          atau menyimpan konstanta yang terkait dengan class, sehingga dapat diakses
+          langsung tanpa perlu membuat objek.
+        </li>
+      </ul>
+
+      <pre>
+// Nama   : Azriel Miracle Yuandre
+// Nim    : 251410024
+// Kelas  : Si2A 
+
+class MathUtils {
+static double pi = 3.14;
+static int add(int x, int y) {
+return x + y;
+}
 }
 void main() {
-  print(MathUtils.pi);     // 3.14
-  print(MathUtils.add(10, 20)); // 30
-}</code></pre>
-        </div>
+print('Nilai pi : ${MathUtils.pi}');
+print('Result : ${MathUtils.add(10, 20)}');
+}
+  </pre>
 
-        <!-- Studi Kasus + Sistem Pembayaran + Geometri -->
-        <div class="section">
-            <h2>🏦 5. Studi Kasus & Implementasi</h2>
-            <h3>💳 Sistem Pembayaran (interface)</h3>
-            <pre><code>abstract class MetodePembayaran {
+      <button class="btn" onclick="openModal('dec0523715d12ecda4212a847fbfd51f')">
+        ⚙️ Lihat Kode
+      </button>
+    </div>
+
+    <h2>Praktik 2- sistem pembayaran</h2>
+    <div class="card">
+      <pre>
+// Nama   : Azriel Miracle Yuandre
+// Nim    : 251410024
+// Kelas  : Si2A 
+
+abstract class MetodePembayaran {
   void bayar(double jumlah);
 }
-class KartuKredit implements MetodePembayaran {
-  @override void bayar(double jumlah) => print('Bayar $jumlah dengan Kartu Kredit');
-}
-class EWallet implements MetodePembayaran {
-  @override void bayar(double jumlah) => print('Bayar $jumlah dengan E-Wallet');
-}
-// ... penggunaan polimorfisme</code></pre>
 
-            <h3>📐 Sistem Bentuk Geometri (abstract class + implementasi)</h3>
-            <pre><code>abstract class Bentuk {
+class KartuKredit implements MetodePembayaran {
+  @override
+  void bayar(double jumlah) {
+    print('Bayar $jumlah dengan Kartu Kredit');
+  }
+}
+
+class EWallet implements MetodePembayaran {
+  @override
+  void bayar(double jumlah) {
+    print('Bayar $jumlah dengan E-Wallet');
+  }
+}
+
+class Tunai implements MetodePembayaran {
+  @override
+  void bayar(double jumlah) {
+    print('Bayar $jumlah dengan Tunai');
+  }
+}
+
+// Contoh penggunaan
+void main() {
+  List<MetodePembayaran> listPembayaran = [
+    KartuKredit(),
+    EWallet(),
+    Tunai(),
+  ];
+  
+  for (var metode in listPembayaran) {
+    metode.bayar(100000);
+  }
+}
+  </pre>
+
+      <button class="btn" onclick="openModal('a9d07d8a56d386459b17222dacbf6235')">
+        💳 Lihat Kode
+      </button>
+    </div>
+
+    <h2> Studi Kasus: Sistem Bentuk Geometri</h2>
+    <div class="card">
+      <pre>
+// Nama   : Azriel Miracle Yuandre
+// Nim    : 251410024
+// Kelas  : Si2A
+
+abstract class Bentuk {
   double hitungLuas();
   double hitungKeliling();
+  
+  void info() {
+    print('Luas: ${hitungLuas()}, Keliling: ${hitungKeliling()}');
+  }
 }
+
 class Persegi implements Bentuk {
   double sisi;
+  
   Persegi(this.sisi);
-  @override double hitungLuas() => sisi * sisi;
-  @override double hitungKeliling() => 4 * sisi;
+  
+  @override
+  double hitungLuas() => sisi * sisi;
+  
+  @override
+  double hitungKeliling() => 4 * sisi;
+  
+  @override
+  void info() {
+    print('Persegi dengan sisi $sisi memiliki luas ${hitungLuas()} dan keliling ${hitungKeliling()}');
+  }
 }
+
 class Lingkaran implements Bentuk {
   double radius;
+  
   Lingkaran(this.radius);
-  @override double hitungLuas() => 3.14 * radius * radius;
-  @override double hitungKeliling() => 2 * 3.14 * radius;
-}</code></pre>
-        </div>
+  
+  @override
+  double hitungLuas() => 3.14 * radius * radius;
+  
+  @override
+  double hitungKeliling() => 2 * 3.14 * radius;
+  
+  @override
+  void info() {
+    print('Lingkaran dengan radius $radius memiliki luas ${hitungLuas()} dan keliling ${hitungKeliling()}');
+  }
+}
 
-        <!-- Latihan Soal 1,2,3,4,5 + Challenge -->
-        <div class="section">
-            <h2>🧪 6. Latihan & Jawaban (Pekerja, Tablet, MathUtils, MediaPlayer)</h2>
-            
-            <h3>📌 Soal 1,2,3 – Sistem Pekerja (Abstract + implements)</h3>
-            <pre><code>abstract class Pekerja {
+void main() {
+  Persegi persegi = Persegi(5);
+  Lingkaran lingkaran = Lingkaran(7);
+  
+  persegi.info();
+  lingkaran.info();
+}
+  </pre>
+
+      <button class="btn" onclick="openModal('224b5f420bce43a752cf2a412fb7bd85')">
+        📐 Lihat Kode
+      </button>
+    </div>
+
+    <h2>Latihan</h2>
+    <div class="card">
+      <h2>Jawaban Soal 1,2,3</h2>
+      <pre>
+// Nama   : Azriel Miracle Yuandre
+// Nim    : 251410024
+// Kelas  : Si2A
+
+// Soal 1, 2, 3
+abstract class Pekerja {
   void bekerja();
-  void istirahat() => print('Sedang istirahat...');
+  
+  void istirahat() {
+    print('Sedang istirahat...');
+  }
+  
+  void info() {
+    print('Ini adalah seorang pekerja');
+  }
 }
-class Programmer implements Pekerja {
-  String nama, bahasaPemrograman;
-  Programmer(this.nama, this.bahasaPemrograman);
-  @override void bekerja() => print('$nama coding $bahasaPemrograman');
-  @override void istirahat() => print('$nama minum kopi');
-}
-// ... Dokter, Guru, dan main() dengan polimorfisme</code></pre>
 
-            <h3>📌 Soal 4 – Tablet (Multiple Implements: Komputer, Kamera, Telepon)</h3>
-            <pre><code>class Komputer { void menyalakan() => print('Komputer menyala'); /*...*/ }
-class Kamera { void mengambilFoto() => print('Foto diambil'); }
-class Telepon { void menelepon(String tujuan) => print('Telp $tujuan'); }
+class Programmer implements Pekerja {
+  String nama;
+  String bahasaPemrograman;
+  
+  Programmer(this.nama, this.bahasaPemrograman);
+  
+  @override
+  void bekerja() {
+    print('$nama sedang coding dengan $bahasaPemrograman');
+  }
+  
+  @override
+  void istirahat() {
+    print('$nama minum kopi sambil ngoding');
+  }
+  
+  @override
+  void info() {
+    print('$nama adalah seorang Programmer');
+  }
+}
+
+class Dokter implements Pekerja {
+  String nama;
+  String spesialis;
+  
+  Dokter(this.nama, this.spesialis);
+  
+  @override
+  void bekerja() {
+    print('$nama sedang memeriksa pasien $spesialis');
+  }
+  
+  @override
+  void istirahat() {
+    print('$nama istirahat di ruang dokter');
+  }
+  
+  @override
+  void info() {
+    print('$nama adalah seorang Dokter $spesialis');
+  }
+}
+
+class Guru implements Pekerja {
+  String nama;
+  String mataPelajaran;
+  
+  Guru(this.nama, this.mataPelajaran);
+  
+  @override
+  void bekerja() {
+    print('$nama sedang mengajar $mataPelajaran');
+  }
+  
+  @override
+  void istirahat() {
+    print('$nama istirahat di ruang guru');
+  }
+  
+  @override
+  void info() {
+    print('$nama adalah seorang Guru $mataPelajaran');
+  }
+}
+
+void main() {
+  print('========== SOAL 1,2,3 ==========');
+  
+  List<Pekerja> daftarPekerja = [
+    Programmer('Andi', 'Dart'),
+    Dokter('Budi', 'Jantung'),
+    Guru('Citra', 'Matematika'),
+  ];
+  
+  for (var pekerja in daftarPekerja) {
+    pekerja.info();
+    pekerja.bekerja();
+    pekerja.istirahat();
+    print('---');
+  }
+}
+  </pre>
+
+      <button class="btn" onclick="openModal('fa58abad32d57301a931ce6e012c6296')">
+        🧑‍💻 Lihat Kode
+      </button>
+
+<h2>Jawaban Soal 4</h2>
+<pre>
+// Nama   : Azriel Miracle Yuandre
+// Nim    : 251410024
+// Kelas  : Si2A
+  // Soal 4
+class Komputer {
+  String merk;
+  String processor;
+  int ram;
+  
+  Komputer(this.merk, this.processor, this.ram);
+  
+  void menyalakan() {
+    print('Komputer $merk menyala');
+  }
+  
+  void mematikan() {
+    print('Komputer $merk mati');
+  }
+  
+  void menjalankanProgram(String program) {
+    print('Menjalankan $program di komputer $merk');
+  }
+}
+
+class Kamera {
+  int megapixel;
+  String lensa;
+  
+  Kamera(this.megapixel, this.lensa);
+  
+  void mengambilFoto() {
+    print('Mengambil foto dengan kamera $megapixel MP');
+  }
+  
+  void merekamVideo() {
+    print('Merekam video dengan lensa $lensa');
+  }
+}
+
+class Telepon {
+  String nomor;
+  String provider;
+  
+  Telepon(this.nomor, this.provider);
+  
+  void menelepon(String tujuan) {
+    print('Menelepon $tujuan dari nomor $nomor');
+  }
+  
+  void mengirimPesan(String tujuan, String pesan) {
+    print('Mengirim pesan ke $tujuan: $pesan');
+  }
+}
 
 class Tablet implements Komputer, Kamera, Telepon {
-  @override void menyalakan() => print('Tablet menyala');
-  @override void mengambilFoto() => print('Tablet memotret');
-  @override void menelepon(String tujuan) => print('Tablet menelpon $tujuan');
-  // tambahan fitur layar sentuh
-}</code></pre>
-
-            <h3>📌 Soal 5 – MathUtils (static utility)</h3>
-            <pre><code>class MathUtils {
-  static int factorial(int n) { /* iterasi */ }
-  static bool isPrima(int n) { /* cek prima */ }
-  static double roundToDecimal(double v, int places) { /* pembulatan */ }
-  static double rataRata(List&lt;double&gt; angka) => angka.reduce((a,b)=>a+b)/angka.length;
-}
-void main() {
-  print(MathUtils.factorial(5));   // 120
-  print(MathUtils.isPrima(17));    // true
-}</code></pre>
-
-            <h3>🏆 CHALLENGE – MediaPlayer System (Abstract + Playable/Pausable Interface)</h3>
-            <pre><code>abstract class MediaPlayer {
-  String title;
-  int duration;
-  void play(); void stop(); void showInfo();
-}
-abstract interface class Playable { void play(); void resume(); }
-abstract interface class Pausable { void pause(); void resumeFromPause(); }
-
-class AudioPlayer implements MediaPlayer, Playable, Pausable {
-  // implementasi lengkap dengan status isPlaying, isPaused
-  @override void play() { /*...*/ }
-  @override void pause() { /*...*/ }
-  void setVolume(int vol) => print('Volume $vol%');
-}
-
-class VideoPlayer implements MediaPlayer, Playable, Pausable {
-  // metode seekTo, fullscreen, resolusi
-}
-// Demonstrasi polimorfisme & interface di main()</code></pre>
-            <div class="note">
-                ⭐ <strong>Challenge lengkap</strong> tersedia di kode sumber asli (dengan output simulasi player, play/pause/resume, daftar media, dan interface demo).
-            </div>
-        </div>
-
-        <!-- Rangkuman pointer penting -->
-        <div class="section">
-            <h2>📌 Rangkuman Konsep Kunci</h2>
-            <div class="grid-2">
-                <div class="grid-item">
-                    <h4>✔ Inheritance</h4>
-                    <p><code>class Anak extends Induk</code> → mewarisi properti & method, bisa <code>@override</code>.</p>
-                    <h4>✔ Polimorfisme</h4>
-                    <p>Objek subclass disimpan dalam tipe superclass, method yang dipanggil sesuai objek asli.</p>
-                </div>
-                <div class="grid-item">
-                    <h4>✔ Abstract Class</h4>
-                    <p>Gunakan <code>abstract class</code> untuk mendefinisikan template, tidak bisa di-instansiasi.</p>
-                    <h4>✔ Interface (implements)</h4>
-                    <p>Class bisa mengimplementasi banyak interface, harus mengimplement ulang semua method.</p>
-                    <h4>✔ Static Member</h4>
-                    <p>Dimiliki oleh class, diakses langsung tanpa objek: <code>NamaClass.method()</code>.</p>
-                </div>
-            </div>
-            <div class="card">
-                <p>✨ <strong>Best Practice:</strong> Gunakan <code>extends</code> untuk hubungan IS-A (hierarki natural), gunakan <code>implements</code> untuk kontrak perilaku (CAN-DO). Kombinasi abstraksi dan polimorfisme membuat kode lebih fleksibel dan mudah dikembangkan.</p>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        📚 Tugas 5 - Pemrograman Berorientasi Objek (Dart) | Review materi: Inheritance, Polimorfisme, Abstract Class, Interface, Static Member <br>
-        Dikembangkan berdasarkan source code oleh <strong>Azriel Miracle Yuandre (251410024 / SI2A)</strong>
-    </footer>
-</div>
-</body>
-</html>            background: #0f0c1f;
-            margin: 1rem 1.5rem 1.5rem 1.5rem;
-            border-radius: 1.2rem;
-            overflow-x: auto;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            line-height: 1.5;
-            color: #e2deff;
-            padding: 1rem 1.2rem;
-            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08), 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .code-block pre {
-            margin: 0;
-            white-space: pre-wrap;
-            word-break: break-word;
-            font-family: inherit;
-        }
-
-        .output-demo {
-            background: #efeaff;
-            margin: 0 1.5rem 1.5rem 1.5rem;
-            border-radius: 1rem;
-            padding: 1rem 1.2rem;
-            border-left: 5px solid #8a6eff;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #1f1a44;
-        }
-
-        .output-demo strong {
-            color: #4a2bd4;
-        }
-
-        .two-columns {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .col {
-            flex: 1;
-            min-width: 260px;
-        }
-
-        hr {
-            margin: 1rem 0;
-            border: none;
-            height: 2px;
-            background: linear-gradient(90deg, #a390ff, #ffffff, #b5a3ff);
-        }
-
-        .footer-note {
-            text-align: center;
-            margin-top: 2rem;
-            font-size: 0.8rem;
-            color: #4c428c;
-            font-weight: 500;
-            background: rgba(240, 235, 255, 0.7);
-            padding: 1rem;
-            border-radius: 2rem;
-        }
-
-        @media (max-width: 760px) {
-            body { padding: 1rem; }
-            .code-block { font-size: 0.75rem; }
-        }
-    </style>
-</head>
-<body>
-<div class="app-container">
-    <div class="hero">
-        <h1>📘 OOP Deep Dive · Polimorfisme & Abstraksi</h1>
-        <div class="sub">
-            <span class="badge">✨ Azriel Miracle Yuandre</span>
-            <span class="badge">🎓 251410024 | SI2A</span>
-            <span class="badge">💜 Dart · Estetik BluePurple</span>
-        </div>
-        <p style="margin-top: 0.8rem; color:#dedcff; font-weight:400;">extends · implements · abstract · static · polimorfisme runtime</p>
-    </div>
-
-    <!-- ========== SECTION 1: INHERITANCE & POLIMORFISME ========= -->
-    <div class="card">
-        <div class="card-header">
-            <span>🐾</span> 1. Pewarisan & Polimorfisme (Hewan)
-        </div>
-        <div class="code-block">
-            <pre>// Refactor: Kreatur (sebagai superclass) dengan suara unik
-abstract class Kreatur {
-  void bersuara();
-}
-
-class KucingLiar extends Kreatur {
+  String nama;
+  String merk;
+  String processor;
+  int ram;
+  int megapixel;
+  String lensa;
+  String nomor;
+  String provider;
+  
+  Tablet({
+    required this.nama,
+    required this.merk,
+    required this.processor,
+    required this.ram,
+    required this.megapixel,
+    required this.lensa,
+    required this.nomor,
+    required this.provider,
+  });
+  
   @override
-  void bersuara() => print('🐱 Meooong!');
-}
-
-class Serigala extends Kreatur {
-  @override
-  void bersuara() => print('🐺 Auuuu...');
-}
-
-class BurungCendrawasih extends Kreatur {
-  @override
-  void bersuara() => print('🐦 Cit cit cuit~');
-}
-
-void main() {
-  List&lt;Kreatur&gt; koleksi = [KucingLiar(), Serigala(), BurungCendrawasih(), KucingLiar()];
-  for (var m in koleksi) { m.bersuara(); }
-}</pre>
-        </div>
-        <div class="output-demo">
-            <strong>🎤 Output demo (polimorfisme):</strong><br>
-            🐱 Meooong!<br>
-            🐺 Auuuu...<br>
-            🐦 Cit cit cuit~<br>
-            🐱 Meooong!
-        </div>
-    </div>
-
-    <!-- ========== 2. is & as Operator ========= -->
-    <div class="card">
-        <div class="card-header">
-            <span>🔍</span> 2. Operator <code>is</code> & <code>as</code> · Casting Aman
-        </div>
-        <div class="code-block">
-            <pre>class KendaraanElektrik {}
-class MobilListrik extends KendaraanElektrik {
-  void bunyikanKlakson() => print('📯 Beep beep!');
-}
-
-void test() {
-  KendaraanElektrik k = MobilListrik();
-  if (k is MobilListrik) {
-    k.bunyikanKlakson();   // cek tipe
+  void menyalakan() {
+    print('Tablet $nama ($merk) menyala');
   }
-  (k as MobilListrik).bunyikanKlakson(); // casting eksplisit
-}</pre>
-        </div>
-        <div class="output-demo">
-            <strong>⚡ Eksekusi:</strong> 📯 Beep beep! <br> 📯 Beep beep! <br> <span style="opacity:0.7;">// aman & type-safe</span>
-        </div>
-    </div>
-
-    <!-- ========== 3. Abstract Class & Method (Kendaraan) ========= -->
-    <div class="two-columns">
-        <div class="col">
-            <div class="card" style="height:100%">
-                <div class="card-header">🚗 Abstract Class Kendaraan</div>
-                <div class="code-block">
-                    <pre>abstract class Kendaraan {
-  String? model;
-  void start();  // abstract
-  void stop() => print('🛑 Mesin mati');
-}
-
-class MobilSport extends Kendaraan {
+  
   @override
-  void start() => print('🏎️ ${model ?? "Mobil"} meluncur dengan turbo!');
-}
-
-void main() {
-  MobilSport m = MobilSport()..model = "Ferrari";
-  m.start();
-  m.stop();
-}</pre>
-                </div>
-                <div class="output-demo">
-                    🏎️ Ferrari meluncur dengan turbo!<br>
-                    🛑 Mesin mati
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card" style="height:100%">
-                <div class="card-header">🎵 Interface & implements (Flyable)</div>
-                <div class="code-block">
-                    <pre>abstract interface class Terbang {
-  void terbang();
-}
-
-class Superhero implements Terbang {
+  void mematikan() {
+    print('Tablet $nama ($merk) mati');
+  }
+  
   @override
-  void terbang() => print('🦸‍♂️ Terbang menyelamatkan kota!');
-}
-
-class Drone implements Terbang {
+  void menjalankanProgram(String program) {
+    print('Menjalankan $program di tablet $nama');
+  }
+  
   @override
-  void terbang() => print('🚁 Drone terbang otomatis.');
-}</pre>
-                </div>
-                <div class="output-demo">
-                    <strong>🦸‍♂️ Demo implements:</strong><br>
-                    🦸‍♂️ Terbang menyelamatkan kota!<br>
-                    🚁 Drone terbang otomatis.
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========== 4. Perbedaan extends vs implements + static members ========= -->
-    <div class="card">
-        <div class="card-header">
-            <span>⚙️</span> Static Members & Utility Class (MathUtils)
-        </div>
-        <div class="code-block">
-            <pre>class MathUtilsEstetik {
-  static double phi = 3.14159;
-  static int tambah(int a, int b) => a + b;
-  static int faktorial(int n) {
-    if (n &lt;= 1) return 1;
-    return n * faktorial(n - 1);
+  void mengambilFoto() {
+    print('Tablet $nama mengambil foto dengan kamera $megapixel MP');
+  }
+  
+  @override
+  void merekamVideo() {
+    print('Tablet $nama merekam video dengan lensa $lensa');
+  }
+  
+  @override
+  void menelepon(String tujuan) {
+    print('Tablet $nama menelepon $tujuan dari nomor $nomor ($provider)');
+  }
+  
+  @override
+  void mengirimPesan(String tujuan, String pesan) {
+    print('Tablet $nama mengirim pesan ke $tujuan: $pesan');
+  }
+  
+  void sentuhLayar() {
+    print('Menyentuh layar tablet $nama');
   }
 }
 
 void main() {
-  print('Phi: ${MathUtilsEstetik.phi}');
-  print('Tambah 15+27 = ${MathUtilsEstetik.tambah(15,27)}');
-  print('Faktorial 6 = ${MathUtilsEstetik.faktorial(6)}');
-}</pre>
-        </div>
-        <div class="output-demo">
-            <strong>📐 Static call:</strong><br>
-            Phi: 3.14159<br>
-            Tambah 15+27 = 42<br>
-            Faktorial 6 = 720
-        </div>
-    </div>
-
-    <!-- ========== 5. Studi Kasus Metode Pembayaran (abstraksi & interface) ========= -->
-    <div class="card">
-        <div class="card-header">
-            <span>💳</span> Pola Interface: Metode Pembayaran (EWallet, KartuKredit, Tunai)
-        </div>
-        <div class="code-block">
-            <pre>abstract class MetodeBayar {
-  void bayar(double jumlah);
+  print('========== SOAL 4 ==========');
+  
+  Tablet tablet = Tablet(
+    nama: 'iPad Pro',
+    merk: 'Apple',
+    processor: 'M2',
+    ram: 16,
+    megapixel: 12,
+    lensa: 'Wide',
+    nomor: '08123456789',
+    provider: 'Telkomsel',
+  );
+  
+  tablet.menyalakan();
+  tablet.menjalankanProgram('Photoshop');
+  tablet.mengambilFoto();
+  tablet.merekamVideo();
+  tablet.menelepon('08123456788');
+  tablet.mengirimPesan('08123456788', 'Halo dari tablet!');
+  tablet.sentuhLayar();
+  tablet.mematikan();
 }
+</pre>
 
-class DigitalWallet implements MetodeBayar {
-  @override
-  void bayar(double jumlah) => print('💸 Bayar Rp${jumlah} pakai OVO/GoPay');
-}
-class KartuKreditPremium implements MetodeBayar {
-  @override
-  void bayar(double jumlah) => print('💳 Transaksi Rp${jumlah} dengan Kartu Kredit');
-}
-class TunaiEmas implements MetodeBayar {
-  @override
-  void bayar(double jumlah) => print('💰 Bayar tunai Rp${jumlah} (uang fisik)');
-}
-
-void main() {
-  List&lt;MetodeBayar&gt; listBayar = [DigitalWallet(), KartuKreditPremium(), TunaiEmas()];
-  for (var m in listBayar) { m.bayar(125000); }
-}</pre>
-        </div>
-        <div class="output-demo">
-            💸 Bayar Rp125000 pakai OVO/GoPay<br>
-            💳 Transaksi Rp125000 dengan Kartu Kredit<br>
-            💰 Bayar tunai Rp125000 (uang fisik)
-        </div>
-    </div>
-
-    <!-- ========== 6. Soal 1-3: Pekerja (Programmer, Dokter, Guru) dengan interface ========= -->
-    <div class="card">
-        <div class="card-header">
-            <span>👩‍💻</span> Soal 1-3: Hierarki Pekerja (implements)
-        </div>
-        <div class="code-block">
-            <pre>abstract class Pekerja {
-  void bekerja();
-  void istirahat() => print('✨ Sedang istirahat sejenak');
-  void infoPekerja();
-}
-
-class FlutterDev implements Pekerja {
-  String nama, bahasa;
-  FlutterDev(this.nama, this.bahasa);
-  @override void bekerja() => print('👨‍💻 $nama coding dengan $bahasa');
-  @override void istirahat() => print('☕ $nama ngopi sambil debug');
-  @override void infoPekerja() => print('📱 $nama — Programmer Flutter');
-}
-
-class DokterSpesialis implements Pekerja {
-  String nama, bidang;
-  DokterSpesialis(this.nama, this.bidang);
-  @override void bekerja() => print('🩺 $nama memeriksa pasien $bidang');
-  @override void istirahat() => print('🍵 $nama istirahat di ruang dokter');
-  @override void infoPekerja() => print('🏥 $nama — Dokter $bidang');
-}
-
-class GuruKreatif implements Pekerja {
-  String nama, mapel;
-  GuruKreatif(this.nama, this.mapel);
-  @override void bekerja() => print('📚 $nama mengajar $mapel dengan semangat');
-  @override void istirahat() => print('🍎 $nama di ruang guru');
-  @override void infoPekerja() => print('🍎 $nama — Guru $mapel');
-}</pre>
-        </div>
-        <div class="output-demo">
-            <strong>📌 Eksekusi list pekerja:</strong><br>
-            📱 Rania — Programmer Flutter<br>
-            👨‍💻 Rania coding dengan Dart<br>
-            ☕ Rania ngopi sambil debug<br>
-            ---<br>
-            🏥 dr. Andika — Dokter Jantung<br>
-            🩺 dr. Andika memeriksa pasien Jantung<br>
-            🍵 dr. Andika istirahat di ruang dokter<br>
-            ---<br>
-            🍎 Bu Citra — Guru Matematika<br>
-            📚 Bu Citra mengajar Matematika dengan semangat<br>
-            🍎 Bu Citra di ruang guru
-        </div>
-    </div>
-
-    <!-- ========== 7. Soal 4: Tablet implements Komputer, Kamera, Telepon (multiple) ========= -->
-    <div class="card">
-        <div class="card-header">
-            <span>📱</span> Soal 4: Tablet — Multi-interface (Komputer + Kamera + Telepon)
-        </div>
-        <div class="code-block">
-            <pre>class KomputerDevice {
-  void boot() => print('💻 Booting sistem...');
-  void shutdown() => print('🔌 Mematikan perangkat');
-}
-class CameraModule {
-  void capture() => print('📸 Jepret foto dengan kamera 48MP');
-  void recordVideo() => print('🎥 Rekam video 4K');
-}
-class TeleponModule {
-  void call(String tujuan) => print('📞 Menelpon $tujuan');
-  void sendSMS(String tujuan, String pesan) => print('✉️ SMS ke $tujuan: $pesan');
-}
-
-class TabletHybrid implements KomputerDevice, CameraModule, TeleponModule {
-  String namaDevice;
-  TabletHybrid(this.namaDevice);
-  @override void boot() => print('✨ Tablet $namaDevice menyala cepat');
-  @override void shutdown() => print('✨ Tablet $namaDevice mati');
-  @override void capture() => print('📸 $namaDevice mengambil foto cinematic');
-  @override void recordVideo() => print('🎥 $namaDevice merekam dengan stabilizer');
-  @override void call(String tujuan) => print('📞 $namaDevice menelepon $tujuan via 5G');
-  @override void sendSMS(String tujuan, String pesan) => print('✉️ Dari $namaDevice ke $tujuan: "$pesan"');
-  void sentuhLayar() => print('🖱️ Layar tablet disentuh — haptic feedback');
-}</pre>
-        </div>
-        <div class="output-demo">
-            <strong>✨ Demo Tablet "Galaxy Tab Ultra":</strong><br>
-            ✨ Tablet Galaxy Tab Ultra menyala cepat<br>
-            📸 Galaxy Tab Ultra mengambil foto cinematic<br>
-            🎥 Galaxy Tab Ultra merekam dengan stabilizer<br>
-            📞 Galaxy Tab Ultra menelepon +628123456 via 5G<br>
-            ✉️ Dari Galaxy Tab Ultra ke +628123456: "Halo dari tablet!"<br>
-            🖱️ Layar tablet disentuh — haptic feedback<br>
-            ✨ Tablet Galaxy Tab Ultra mati
-        </div>
-    </div>
-
-    <!-- ========== 8. Soal 5: MathUtils statik (faktorial, prima, median, random) ========= -->
-    <div class="card">
-        <div class="card-header">
-            <span>🧮</span> Soal 5: MathUtils Extended — factorial, prima, median, random
-        </div>
-        <div class="code-block">
-            <pre>class MathLovely {
-  static int faktorial(int n) {
-    if (n &lt; 0) throw Exception('no negatif');
-    return n &lt;= 1 ? 1 : n * faktorial(n-1);
+      <button class="btn" onclick="openModal('17dc112fbbf09455faf5544e1c8e62d6')">
+        📱 Lihat Kode
+      </button>
+<h2>Jawaban Soal 5</h2>
+      <pre>
+        
+// Nama   : Azriel Miracle Yuandre
+// Nim    : 251410024
+// Kelas  : Si2A
+        // Soal 5
+class MathUtils {
+  static int factorial(int n) {
+    if (n < 0) throw ArgumentError('Tidak bisa menghitung faktorial bilangan negatif');
+    if (n == 0 || n == 1) return 1;
+    int hasil = 1;
+    for (int i = 2; i <= n; i++) {
+      hasil *= i;
+    }
+    return hasil;
   }
+  
   static bool isPrima(int n) {
-    if (n &lt; 2) return false;
-    for (int i = 2; i * i &lt;= n; i++) if (n % i == 0) return false;
+    if (n <= 1) return false;
+    if (n == 2) return true;
+    if (n % 2 == 0) return false;
+    for (int i = 3; i * i <= n; i += 2) {
+      if (n % i == 0) return false;
+    }
     return true;
   }
-  static double rataRata(List&lt;num&gt; angka) {
+  
+  static double roundToDecimal(double value, int decimalPlaces) {
+    double faktor = 1;
+    for (int i = 0; i < decimalPlaces; i++) {
+      faktor *= 10;
+    }
+    return (value * faktor).round() / faktor;
+  }
+  
+  static int randomInt(int min, int max) {
+    return min + (DateTime.now().millisecondsSinceEpoch % (max - min + 1));
+  }
+  
+  static double randomDouble(double min, double max) {
+    return min + (DateTime.now().millisecondsSinceEpoch % 10000) / 10000 * (max - min);
+  }
+  
+  static double rataRata(List<double> angka) {
     if (angka.isEmpty) return 0;
-    return angka.reduce((a,b) => a+b) / angka.length;
+    double sum = 0;
+    for (var a in angka) {
+      sum += a;
+    }
+    return sum / angka.length;
   }
-  static double median(List&lt;num&gt; data) {
-    List&lt;num&gt; sorted = List.from(data)..sort();
-    int mid = sorted.length ~/ 2;
-    if (sorted.length % 2 == 0) return (sorted[mid-1] + sorted[mid]) / 2;
-    return sorted[mid];
-  }
-  static int randomInt(int min, int max) => min + DateTime.now().millisecond % (max - min + 1);
-}
-
-void main() {
-  print('Faktorial 7: ${MathLovely.faktorial(7)}');
-  print('Prima 29? ${MathLovely.isPrima(29)}');
-  print('Rata-rata [10,20,30,40]: ${MathLovely.rataRata([10,20,30,40])}');
-  print('Median [3,5,1,9,2]: ${MathLovely.median([3,5,1,9,2])}');
-}</pre>
-        </div>
-        <div class="output-demo">
-            <strong>🔢 Kalkulasi:</strong><br>
-            Faktorial 7: 5040<br>
-            Prima 29? true<br>
-            Rata-rata [10,20,30,40]: 25.0<br>
-            Median [3,5,1,9,2]: 3.0<br>
-            🎲 randomInt(1,100) -> (contoh) 42
-        </div>
-    </div>
-
-    <!-- ========== 9. DEMO KOMPREHENSIF: MediaPlayer (Abstract + Playable/Pausable) ========= -->
-    <div class="card">
-        <div class="card-header">
-            <span>🎬</span> Proyek Akhir: MediaPlayer (Audio & Video) + Interface Playable/Pausable
-        </div>
-        <div class="code-block">
-            <pre>abstract class MediaStream {
-  String judul;
-  int durasiDetik;
-  MediaStream(this.judul, this.durasiDetik);
-  void play();
-  void stop();
-  void info();
-  void displayDuration() {
-    int m = durasiDetik ~/ 60;
-    int d = durasiDetik % 60;
-    print('⏱️ Durasi: ${m.toString().padLeft(2,'0')}:${d.toString().padLeft(2,'0')}');
-  }
-}
-
-abstract interface class PlayableControl { void play(); void resume(); }
-abstract interface class PauseControl { void pause(); void resumeFromPause(); }
-
-class MusicTrack extends MediaStream implements PlayableControl, PauseControl {
-  String format;
-  int bitrate;
-  bool _playing = false, _paused = false;
-  MusicTrack(super.judul, super.durasiDetik, this.format, this.bitrate);
-  @override void play() { _playing = true; _paused = false; print('🎵 Memutar lagu: $judul ($format)'); }
-  @override void pause() { if(_playing){ _playing=false; _paused=true; print('⏸️ Jeda lagu: $judul');} }
-  @override void resume() { if(_paused){ _playing=true; _paused=false; print('▶️ Melanjutkan $judul');} }
-  @override void resumeFromPause() => resume();
-  @override void stop() { _playing=false; _paused=false; print('⏹️ Stop: $judul'); }
-  @override void info() { print('🎧 AUDIO: $judul | ${bitrate}kbps | format $format'); displayDuration(); }
-}
-
-class MovieClip extends MediaStream implements PlayableControl, PauseControl {
-  String resolusi;
-  bool _playing = false, _paused = false;
-  MovieClip(super.judul, super.durasiDetik, this.resolusi);
-  @override void play() { _playing = true; _paused = false; print('🎬 Memutar video: $judul ($resolusi)'); }
-  @override void pause() { if(_playing){ _playing=false; _paused=true; print('⏸️ Video dijeda');} }
-  @override void resume() { if(_paused){ _playing=true; _paused=false; print('▶️ Resume video $judul');} }
-  @override void resumeFromPause() => resume();
-  @override void stop() { _playing=false; _paused=false; print('🛑 Video dihentikan: $judul'); }
-  @override void info() { print('📽️ VIDEO: $judul | Resolusi $resolusi'); displayDuration(); }
-}</pre>
-        </div>
-        <div class="output-demo">
-            <strong>🎛️ Demo Polimorfisme Media:</strong><br>
-            🎧 AUDIO: FLAC - Bohemian Rhapsody | 1411kbps | format FLAC<br>
-            ⏱️ Durasi: 05:55<br>
-            🎵 Memutar lagu: FLAC - Bohemian Rhapsody (FLAC)<br>
-            ⏸️ Jeda lagu: FLAC - Bohemian Rhapsody<br>
-            ▶️ Melanjutkan FLAC - Bohemian Rhapsody<br>
-            ⏹️ Stop: FLAC - Bohemian Rhapsody<br>
-            ---<br>
-            📽️ VIDEO: Interstellar 4K Trailer | Resolusi 3840x2160<br>
-            ⏱️ Durasi: 03:00<br>
-            🎬 Memutar video: Interstellar 4K Trailer (3840x2160)<br>
-                                                                  
+  
+  static double median(List<double> angka
