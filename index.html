@@ -2,8 +2,8 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Review PBO Dart: Inheritance, Polimorfisme, Abstraksi | Azriel Miracle Yuandre</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Pixel Art OOP: Polimorfisme & Abstraksi | Retro Coding</title>
     <style>
         * {
             margin: 0;
@@ -12,95 +12,496 @@
         }
 
         body {
-            font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
-            background: #f1f5f9;
-            color: #0f172a;
-            line-height: 1.5;
+            background: #1a2a1f;
+            font-family: 'Courier New', 'VT323', 'Press Start 2P', monospace;
             padding: 2rem 1rem;
+            color: #b3ff9e;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
         }
 
-        .container {
-            max-width: 1280px;
+        /* pixelated container */
+        .pixel-container {
+            max-width: 1300px;
             margin: 0 auto;
-            background: white;
-            border-radius: 2rem;
-            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
+            background: #0f1a0c;
+            border: 4px solid #7cfc00;
+            box-shadow: 8px 8px 0 #2c4d1e;
+            padding: 1.5rem;
         }
 
-        /* header */
-        .header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: white;
-            padding: 2rem 2rem 1.8rem;
-            border-bottom: 4px solid #38bdf8;
+        /* header pixel */
+        .pixel-header {
+            text-align: center;
+            border-bottom: 4px dashed #7cfc00;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
         }
 
-        .header h1 {
+        .pixel-title {
             font-size: 2.2rem;
-            font-weight: 700;
-            letter-spacing: -0.01em;
-            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 0 #2b5e1a;
+            color: #e9ffb4;
+            background: #1f3a18;
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border: 2px solid #b3ff9e;
+            box-shadow: inset -2px -2px 0 #2e5c1a, inset 2px 2px 0 #c4ffa2;
         }
 
-        .badge {
+        .sub-pixel {
+            font-size: 1rem;
+            margin-top: 12px;
+            color: #b2ff6e;
+            background: #1c2c16;
             display: inline-block;
-            background: #38bdf8;
-            color: #0f172a;
-            padding: 0.2rem 1rem;
-            border-radius: 30px;
+            padding: 4px 12px;
+        }
+
+        /* grid style pixel card */
+        .pixel-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        .pixel-card {
+            background: #182012;
+            border: 3px solid #6f9e4f;
+            flex: 1 1 380px;
+            padding: 1rem 1.2rem;
+            transition: transform 0.1s step-end;
+            box-shadow: 5px 5px 0 #2f4824;
+        }
+
+        .pixel-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0 #4c7a32;
+            border-color: #c3ff8a;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-left: 12px solid #7cfc00;
+            padding-left: 10px;
+            margin-bottom: 12px;
+            background: #253d1c;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .code-block {
+            background: #0c1209;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #c6ffa3;
+            border: 2px solid #5c9442;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            margin: 12px 0;
+            border-radius: 0px;
+        }
+
+        .output-demo {
+            background: #000000aa;
+            background: #1e2a18;
+            padding: 10px;
+            border-left: 6px solid #a5ff6e;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        button.pixel-btn {
+            background: #2f5822;
+            border: none;
+            font-family: monospace;
+            font-weight: bold;
+            padding: 6px 12px;
+            margin-top: 8px;
+            color: #e3ffc7;
+            border-bottom: 3px solid #95d46a;
+            cursor: pointer;
+            transition: 0.05s linear;
             font-size: 0.8rem;
-            font-weight: 600;
-            margin-top: 0.5rem;
         }
 
-        .student-info {
-            margin-top: 1rem;
-            background: rgba(255,255,255,0.12);
-            padding: 0.8rem 1.2rem;
-            border-radius: 1.2rem;
-            display: inline-block;
-            backdrop-filter: blur(4px);
+        button.pixel-btn:active {
+            transform: translateY(2px);
+            border-bottom: 1px solid #5e9642;
         }
 
-        /* konten utama */
-        .content {
-            padding: 2rem;
+        hr {
+            border-color: #4c7632;
+            margin: 16px 0;
         }
 
-        .section {
-            margin-bottom: 3rem;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 2rem;
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.7rem;
+            border-top: 2px dotted #7cbd4a;
+            padding-top: 20px;
         }
 
-        .section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
+        @media (max-width: 800px) {
+            .pixel-title {
+                font-size: 1.5rem;
+            }
         }
+    </style>
+</head>
+<body>
+<div class="pixel-container">
+    <div class="pixel-header">
+        <div class="pixel-title">◢ PIXEL POLYMORPHISM ◣<br>✦ ABSTRACTION ARENA ✦</div>
+        <div class="sub-pixel">⚡ Uliya Gumpari | 251410008 | SI2A | PIXEL REMASTER ⚡</div>
+        <div style="font-size:12px; margin-top:8px;">🐾 konsep OOP → game retro + monster & hero pixel 🕹️</div>
+    </div>
 
-        h2 {
-            font-size: 1.7rem;
-            font-weight: 600;
-            background: #eef2ff;
-            display: inline-block;
-            padding: 0.2rem 1rem;
-            border-radius: 40px;
-            margin-bottom: 1.5rem;
-            color: #1e293b;
-            letter-spacing: -0.2px;
-        }
+    <!-- PENJELASAN SINGKAT TEMA BARU -->
+    <div class="pixel-card" style="margin-bottom:10px;">
+        <div class="card-title">🎮 THEME PIXEL REMIX 🎮</div>
+        <div>Variabel & objek diubah menjadi: <strong>PixelHero, PixelMonster, PowerUp, WeaponMaster</strong><br>
+        Setiap class mewarisi/mengimplementasikan konsep abstrak dan polimorfik. Kode interaktif + demo output!</div>
+    </div>
 
-        h3 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin: 1.5rem 0 0.75rem 0;
-            color: #0f172a;
-            border-left: 5px solid #38bdf8;
-            padding-left: 1rem;
-        }
+    <div class="pixel-grid">
+        <!-- CARD 1 : INHERITANCE & POLIMORFISME DASAR -->
+        <div class="pixel-card">
+            <div class="card-title">🔹 01. WARRIOR & MAGE (Polymorph)</div>
+            <div class="code-block">
+                // PixelHero sebagai abstract class
+                abstract class PixelHero {
+                  String name;
+                  PixelHero(this.name);
+                  void attack(); // abstract method
+                  void info() => print('⭐ Hero: $name');
+                }
+                
+                class Warrior extends PixelHero {
+                  Warrior(String name) : super(name);
+                  @override
+                  void attack() => print('⚔️ $name menebas dengan Pedang Pixel!');
+                }
+                
+                class Mage extends PixelHero {
+                  Mage(String name) : super(name);
+                  @override
+                  void attack() => print('🔮 $name melontarkan Fireball pixel!');
+                }
+            </div>
+            <button class="pixel-btn" id="btnHeroDemo">▶ Jalankan Demo Hero</button>
+            <div id="heroOutput" class="output-demo">[Klik tombol]</div>
+        </div>
 
-        h4 {
+        <!-- CARD 2 : POLIMORFISME DENGAN LIST (MONSTER ARENA) -->
+        <div class="pixel-card">
+            <div class="card-title">🔹 02. ARENA MONSTER (Polymorph List)</div>
+            <div class="code-block">
+                abstract class Monster {
+                  void roar();
+                }
+                
+                class Goblin extends Monster {
+                  @override
+                  void roar() => print('👺 Goblin: GREEee! serangan kecil!');
+                }
+                
+                class Ogre extends Monster {
+                  @override
+                  void roar() => print('👹 Ogre: GROOAR! hancurkan!');
+                }
+                
+                class Dragon extends Monster {
+                  @override
+                  void roar() => print('🐉 Naga: *Api membara* ROOOAR!');
+                }
+                
+                // List polimorfik
+                List<Monster> monsters = [Goblin(), Ogre(), Dragon()];
+            </div>
+            <button class="pixel-btn" id="btnMonsterDemo">🐺 Panggil Monster Roar!</button>
+            <div id="monsterOutput" class="output-demo">[Klik untuk mendengar raungan monster]</div>
+        </div>
+
+        <!-- CARD 3 : ABSTRACT CLASS & METHOD (WEAPON SMITH) -->
+        <div class="pixel-card">
+            <div class="card-title">🔹 03. ABSTRACT WEAPON (Abstraksi)</div>
+            <div class="code-block">
+                abstract class Weapon {
+                  String name;
+                  Weapon(this.name);
+                  void use();   // abstract method
+                  void desc() => print('📦 Senjata: $name');
+                }
+                
+                class Sword extends Weapon {
+                  Sword(String name) : super(name);
+                  @override
+                  void use() => print('🗡️ $name digunakan: tebasan pedang +50 DMG!');
+                }
+                
+                class Bow extends Weapon {
+                  Bow(String name) : super(name);
+                  @override
+                  void use() => print('🏹 $name melesat: panah pixel +35 DMG!');
+                }
+            </div>
+            <button class="pixel-btn" id="btnWeaponDemo">🏆 Uji Senjata Abstrak</button>
+            <div id="weaponOutput" class="output-demo">[Klik untuk aksi]</div>
+        </div>
+
+        <!-- CARD 4 : INTERFACE DENGAN IMPLEMENTS (FLY / POWERUP) -->
+        <div class="pixel-card">
+            <div class="card-title">🔹 04. INTERFACE FLYABLE (POWERUP PIXEL)</div>
+            <div class="code-block">
+                interface class Flyable {
+                  void flyAction();
+                }
+                
+                class JetpackHero implements Flyable {
+                  @override
+                  void flyAction() => print('✈️ Jetpack aktif! Terbang tinggi!');
+                }
+                
+                class MagicWing implements Flyable {
+                  @override
+                  void flyAction() => print('🪶 Sayap peri: melayang dengan kilau pixel!');
+                }
+                
+                class RocketBoots implements Flyable {
+                  @override
+                  void flyAction() => print('🚀 Roket sepatu: blazing fast!');
+                }
+            </div>
+            <button class="pixel-btn" id="btnFlyDemo">🌀 Aktifkan Power Terbang</button>
+            <div id="flyOutput" class="output-demo">[Klik untuk demonstrasi interface]</div>
+        </div>
+
+        <!-- CARD 5 : STATIC MEMBERS (PIXEL MATH) -->
+        <div class="pixel-card">
+            <div class="card-title">🔹 05. STATIC MEMBERS - PixelUtils</div>
+            <div class="code-block">
+                class PixelUtils {
+                  static int pixelPower = 99;
+                  static int addPixel(int a, int b) => a + b + pixelPower;
+                  static String critInfo() => "✨ CRITICAL PIXEL STRIKE! ✨";
+                }
+            </div>
+            <button class="pixel-btn" id="btnStaticDemo">📊 Hitung Statik Pixel</button>
+            <div id="staticOutput" class="output-demo">[Klik untuk statik method]</div>
+        </div>
+
+        <!-- CARD 6 : BONUS STUDI KASUS GEOMETRI PIXEL (versi kubus & segitiga) -->
+        <div class="pixel-card">
+            <div class="card-title">🔹 06. GEOMETRI PIXEL (Abstrak + Polimorf)</div>
+            <div class="code-block">
+                abstract class PixelShape {
+                  double hitungLuas();
+                  String shapeName();
+                }
+                
+                class PixelCube extends PixelShape {
+                  double sisi;
+                  PixelCube(this.sisi);
+                  @override double hitungLuas() => 6 * sisi * sisi;
+                  @override String shapeName() => "Kubus Pixel";
+                }
+                
+                class PixelTriangle extends PixelShape {
+                  double alas, tinggi;
+                  PixelTriangle(this.alas, this.tinggi);
+                  @override double hitungLuas() => 0.5 * alas * tinggi;
+                  @override String shapeName() => "Segitiga Retro";
+                }
+            </div>
+            <button class="pixel-btn" id="btnShapeDemo">📐 Hitung Luas Bentuk</button>
+            <div id="shapeOutput" class="output-demo">[Klik untuk perhitungan luas]</div>
+        </div>
+
+        <!-- CARD 7 : BONUS SYSTEM PEMBAYARAN PIXEL (COIN / GEMS) -->
+        <div class="pixel-card">
+            <div class="card-title">🔹 07. PAYMENT PIXEL (Koin & Kristal)</div>
+            <div class="code-block">
+                abstract class PixelPayment {
+                  void pay(int amount);
+                }
+                
+                class CoinBag implements PixelPayment {
+                  @override
+                  void pay(int amount) => print('💰 Membayar $amount koin emas!');
+                }
+                
+                class CrystalShard implements PixelPayment {
+                  @override
+                  void pay(int amount) => print('💎 Membayar $amount pecahan kristal ajaib');
+                }
+            </div>
+            <button class="pixel-btn" id="btnPayDemo">🪙 Transaksi Pixel Shop</button>
+            <div id="payOutput" class="output-demo">[Klik untuk metode pembayaran]</div>
+        </div>
+
+        <!-- CARD 8 : BONUS PEKERJA versi PIXEL JOB (Adventurer, Blacksmith, Alchemist) -->
+        <div class="pixel-card">
+            <div class="card-title">🔹 08. PIXEL JOB (Polimorfisme Pekerja)</div>
+            <div class="code-block">
+                abstract class PixelWorker {
+                  void work();
+                }
+                
+                class Adventurer implements PixelWorker {
+                  @override void work() => print('🏹 Petualang: mencari harta karun pixel!');
+                }
+                class Blacksmith implements PixelWorker {
+                  @override void work() => print('⚒️ Pandai Besi: menempa armor legendaris.');
+                }
+                class Alchemist implements PixelWorker {
+                  @override void work() => print('🧪 Alkemis: meracik ramuan super.');
+                }
+            </div>
+            <button class="pixel-btn" id="btnWorkerDemo">👥 Panggil Pixel Worker</button>
+            <div id="workerOutput" class="output-demo">[Klik untuk aksi pekerja]</div>
+        </div>
+    </div>
+    <footer>
+        ⚡ Tema Pixel Art - Variabel & Objek diubah menjadi Hero, Monster, Weapon, Powerup, PixelMath ⚡<br>
+        Konsep: Pewarisan, Polimorfisme, Abstract Class, Interface, Static Member.<br>
+        Dart-like JavaScript simulation | inspired by retro game OOP
+    </footer>
+</div>
+
+<script>
+    // ======================== SIMULASI DART STYLE OOP DALAM JS (PIXEL REMIX) ========================
+    // Mendefinisikan ulang class-class dalam javascript untuk demo interaktif
+    
+    // ---- 01. Hero system ----
+    class PixelHero {
+        constructor(name) { this.name = name; }
+        attack() { throw new Error("abstract"); }
+        info() { return `⭐ Hero: ${this.name}`; }
+    }
+    class Warrior extends PixelHero {
+        constructor(name) { super(name); }
+        attack() { return `⚔️ ${this.name} menebas dengan Pedang Pixel!`; }
+    }
+    class Mage extends PixelHero {
+        constructor(name) { super(name); }
+        attack() { return `🔮 ${this.name} melontarkan Fireball pixel!`; }
+    }
+
+    // ---- 02. Monster system ----
+    class Monster { roar() { throw new Error("abstract"); } }
+    class Goblin extends Monster { roar() { return "👺 Goblin: GREEee! serangan kecil!"; } }
+    class Ogre extends Monster { roar() { return "👹 Ogre: GROOAR! hancurkan!"; } }
+    class Dragon extends Monster { roar() { return "🐉 Naga: *Api membara* ROOOAR!"; } }
+
+    // ---- 03. Weapon abstract ----
+    class Weapon {
+        constructor(name) { this.name = name; }
+        use() { throw new Error("abstract"); }
+        desc() { return `📦 Senjata: ${this.name}`; }
+    }
+    class Sword extends Weapon {
+        constructor(name) { super(name); }
+        use() { return `🗡️ ${this.name} digunakan: tebasan pedang +50 DMG!`; }
+    }
+    class Bow extends Weapon {
+        constructor(name) { super(name); }
+        use() { return `🏹 ${this.name} melesat: panah pixel +35 DMG!`; }
+    }
+
+    // ---- 04. Flyable interface ----
+    class Flyable { flyAction() { throw new Error("interface"); } }
+    class JetpackHero extends Flyable { flyAction() { return "✈️ Jetpack aktif! Terbang tinggi!"; } }
+    class MagicWing extends Flyable { flyAction() { return "🪶 Sayap peri: melayang dengan kilau pixel!"; } }
+    class RocketBoots extends Flyable { flyAction() { return "🚀 Roket sepatu: blazing fast!"; } }
+
+    // ---- 05. static members ----
+    class PixelUtils {
+        static pixelPower = 99;
+        static addPixel(a, b) { return a + b + PixelUtils.pixelPower; }
+        static critInfo() { return "✨ CRITICAL PIXEL STRIKE! ✨"; }
+    }
+
+    // ---- 06. shape pixel ----
+    class PixelShape { hitungLuas() { throw new Error("abstract"); } shapeName() { throw new Error("abstract"); } }
+    class PixelCube extends PixelShape {
+        constructor(sisi) { super(); this.sisi = sisi; }
+        hitungLuas() { return 6 * this.sisi * this.sisi; }
+        shapeName() { return "Kubus Pixel"; }
+    }
+    class PixelTriangle extends PixelShape {
+        constructor(alas, tinggi) { super(); this.alas = alas; this.tinggi = tinggi; }
+        hitungLuas() { return 0.5 * this.alas * this.tinggi; }
+        shapeName() { return "Segitiga Retro"; }
+    }
+
+    // ---- 07. Payment pixel ----
+    class PixelPayment { pay(amount) { throw new Error("abstract"); } }
+    class CoinBag extends PixelPayment { pay(amount) { return `💰 Membayar ${amount} koin emas!`; } }
+    class CrystalShard extends PixelPayment { pay(amount) { return `💎 Membayar ${amount} pecahan kristal ajaib`; } }
+
+    // ---- 08. Pixel Worker ----
+    class PixelWorker { work() { throw new Error("abstract"); } }
+    class Adventurer extends PixelWorker { work() { return "🏹 Petualang: mencari harta karun pixel!"; } }
+    class Blacksmith extends PixelWorker { work() { return "⚒️ Pandai Besi: menempa armor legendaris."; } }
+    class Alchemist extends PixelWorker { work() { return "🧪 Alkemis: meracik ramuan super."; } }
+
+    // --- Helper DOM elements ---
+    document.getElementById("btnHeroDemo").addEventListener("click", () => {
+        let warrior = new Warrior("Kael Pixel");
+        let mage = new Mage("Lumina");
+        let output = `${warrior.info()}\n${warrior.attack()}\n${mage.info()}\n${mage.attack()}`;
+        document.getElementById("heroOutput").innerHTML = output.replace(/\n/g, "<br>");
+    });
+    
+    document.getElementById("btnMonsterDemo").addEventListener("click", () => {
+        let monsters = [new Goblin(), new Ogre(), new Dragon()];
+        let result = monsters.map(m => m.roar()).join("<br>");
+        document.getElementById("monsterOutput").innerHTML = result;
+    });
+    
+    document.getElementById("btnWeaponDemo").addEventListener("click", () => {
+        let sword = new Sword("ExcaliPixel");
+        let bow = new Bow("Wind Shooter");
+        let out = `${sword.desc()}<br>${sword.use()}<br>${bow.desc()}<br>${bow.use()}`;
+        document.getElementById("weaponOutput").innerHTML = out;
+    });
+    
+    document.getElementById("btnFlyDemo").addEventListener("click", () => {
+        let flyItems = [new JetpackHero(), new MagicWing(), new RocketBoots()];
+        let msg = flyItems.map(f => f.flyAction()).join("<br>");
+        document.getElementById("flyOutput").innerHTML = msg;
+    });
+    
+    document.getElementById("btnStaticDemo").addEventListener("click", () => {
+        let sum = PixelUtils.addPixel(25, 40);
+        let infoStat = PixelUtils.critInfo();
+        document.getElementById("staticOutput").innerHTML = `🔢 addPixel(25,40) + power ${PixelUtils.pixelPower} = ${sum}<br>${infoStat}`;
+    });
+    
+    document.getElementById("btnShapeDemo").addEventListener("click", () => {
+        let cube = new PixelCube(4);
+        let triangle = new PixelTriangle(6, 8);
+        let luasCube = cube.hitungLuas();
+        let luasTri = triangle.hitungLuas();
+        let out = `📦 ${cube.shapeName()} (sisi=4) => Luas Permukaan = ${luasCube}<br>`;
+        out += `📐 ${triangle.shapeName()} (alas=6, tinggi=8) => Luas = ${luasTri}`;
+        document.getElementById("shapeOutput").innerHTML = out;
+    });
+    
+    document.getElementById("btnPayDemo").addEventListener("click", () => {
+        let payments = [new CoinBag(), new CrystalShard()];
+        let hasil = payments.map((p, idx) => {
+            let amount = idx === 0 ? 250 : 120;
+            return p.pay(amount);
+        }).join("<br>");
+        document.getElementById("payOutput").in        h4 {
             font-weight: 600;
             font-size: 1.1rem;
             margin: 1rem 0 0.5rem;
