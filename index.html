@@ -974,82 +974,206 @@ void tampilkanSemuaPekerja(List<Pekerja> pekerjaList) {
 // Nim: 251410003
 // Kelas: SI2A
   // Soal 4
-// 1. Class Komputer
 class Komputer {
   String processor;
   int ram;
+  int storage;
 
-  Komputer(this.processor, this.ram);
+  Komputer(this.processor, this.ram, this.storage);
 
-  void jalankanOS() {
-    print('Menjalankan sistem operasi komputer...');
+  void boot() {
+    print('💻 Komputer booting...');
   }
 
-  void tampilkanSpesifikasi() {
-    print('Processor: $processor, RAM: $ram GB');
+  void shutdown() {
+    print('💻 Komputer shutdown.');
+  }
+
+  void displaySpecs() {
+    print('📊 Spesifikasi Komputer:');
+    print('   - Processor: $processor');
+    print('   - RAM: ${ram}GB');
+    print('   - Storage: ${storage}GB');
   }
 }
 
-// 2. Class Tablet
-class Tablet extends Komputer {
-  bool? stylusMenyala;  // Menggunakan ? untuk nullable
-
-  Tablet(String processor, int ram) : super(processor, ram);
-
-  // Fungsi dari Kamera
-  void ambilFoto() {
-    print('Mengambil foto dengan kamera tablet (resolusi tinggi).');
+// ========== MIXIN KAMERA (Interface) ==========
+mixin Kamera {
+  void takePhoto() {
+    print('📸 Mengambil foto menggunakan kamera tablet');
   }
 
-  void rekamVideo() {
-    print('Merekam video dengan stabilisasi optik.');
+  void recordVideo() {
+    print('🎥 Merekam video menggunakan kamera tablet');
+  }
+  
+  void zoom(int level) {
+    print('🔍 Zoom kamera ke level $level');
+  }
+}
+
+// ========== MIXIN TELEPON (Interface) ==========
+mixin Telepon {
+  void makeCall(String number) {
+    print('📞 Melakukan panggilan ke: $number');
   }
 
-  // Fungsi dari Telepon
-  void telpon(String nomor) {
-    print('Melakukan panggilan dari tablet ke nomor: $nomor');
+  void receiveCall(String number) {
+    print('📞 Menerima panggilan dari: $number');
+  }
+  
+  void sendSMS(String number, String message) {
+    print('💬 Mengirim SMS ke $number: "$message"');
+  }
+}
+
+// ========== KELAS TABLET (Mewarisi Komputer + Kamera + Telepon) ==========
+class Tablet extends Komputer with Kamera, Telepon {
+  // Properti tambahan untuk tablet
+  bool hasStylus;
+  String? cellularNetwork;
+  double screenSize;
+  int batteryCapacity;
+
+  // Constructor
+  Tablet({
+    required String processor,
+    required int ram,
+    required int storage,
+    required this.screenSize,
+    required this.batteryCapacity,
+    this.hasStylus = false,
+    this.cellularNetwork,
+  }) : super(processor, ram, storage);
+
+  // Method khusus tablet
+  void useStylus() {
+    if (hasStylus) {
+      print('✍️ Menggunakan stylus untuk menulis di layar');
+    } else {
+      print('❌ Tablet ini tidak dilengkapi stylus');
+    }
   }
 
-  void terimaTelpon() {
-    print('Menerima panggilan masuk di tablet.');
+  void enableCellular() {
+    if (cellularNetwork != null) {
+      print('📶 Mode seluler diaktifkan (Jaringan: $cellularNetwork)');
+    } else {
+      print('⚠️ Tablet ini tidak memiliki modem seluler (WiFi only)');
+    }
   }
 
-  // Method tambahan khusus tablet
-  void gunakanStylus() {
-    stylusMenyala = true;
-    print('Stylus aktif, siap menggambar/menulis.');
+  void touchScreen() {
+    print('👆 Layar sentuh $screenSize inci merespons sentuhan');
   }
 
-  void sentuhLayar() {
-    print('Layar disentuh, gestur dideteksi.');
+  void checkBattery() {
+    print('🔋 Baterai: ${batteryCapacity}mAh');
   }
 
-  // Override method dari Komputer
+  // Override method displaySpecs dari Komputer
   @override
-  void jalankanOS() {
-    print('Menjalankan Android / iPadOS dengan antarmuka sentuh.');
+  void displaySpecs() {
+    super.displaySpecs();
+    print('   📱 Spesifikasi Tambahan Tablet:');
+    print('   - Layar: ${screenSize} inci');
+    print('   - Baterai: ${batteryCapacity}mAh');
+    print('   - Stylus: ${hasStylus ? "Ya" : "Tidak"}');
+    print('   - Jaringan: ${cellularNetwork ?? "WiFi only"}');
+  }
+
+  // Override method boot
+  @override
+  void boot() {
+    print('📱 Tablet ${processor} booting...');
+    print('   Layar sentuh ${screenSize} inci siap digunakan');
+  }
+
+  // Override method shutdown
+  @override
+  void shutdown() {
+    print('📱 Tablet mati... Sampai jumpa!');
   }
 }
 
-// Main function
+// ========== MAIN PROGRAM ==========
 void main() {
-  Tablet tablet = Tablet('Snapdragon 8 Gen 2', 8);
+  print('═══════════════════════════════════════════════════════');
+  print('              TABLET DEMONSTRATION');
+  print('═══════════════════════════════════════════════════════\n');
+
+  // Membuat objek Tablet 1 (Dengan Seluler + Stylus)
+  Tablet iPadPro = Tablet(
+    processor: 'Apple M2',
+    ram: 8,
+    storage: 256,
+    screenSize: 12.9,
+    batteryCapacity: 10875,
+    hasStylus: true,
+    cellularNetwork: '5G',
+  );
+
+  print('═══════════ TABLET 1 (iPad Pro) ═══════════\n');
+  iPadPro.displaySpecs();
+  print('');
+  iPadPro.boot();
+  print('');
+  iPadPro.takePhoto();
+  iPadPro.recordVideo();
+  iPadPro.zoom(5);
+  print('');
+  iPadPro.makeCall('08123456789');
+  iPadPro.receiveCall('08987654321');
+  iPadPro.sendSMS('08123456789', 'Halo, ini dari tablet!');
+  print('');
+  iPadPro.useStylus();
+  iPadPro.touchScreen();
+  iPadPro.enableCellular();
+  iPadPro.checkBattery();
+  print('');
+  iPadPro.shutdown();
+
+  print('\n═══════════ TABLET 2 (WiFi Only) ═══════════\n');
+
+  // Membuat objek Tablet 2 (Tanpa seluler dan stylus)
+  Tablet samsungTab = Tablet(
+    processor: 'Snapdragon 8 Gen 2',
+    ram: 12,
+    storage: 512,
+    screenSize: 11.0,
+    batteryCapacity: 8000,
+    hasStylus: false,
+    cellularNetwork: null, // WiFi only
+  );
+
+  samsungTab.displaySpecs();
+  print('');
+  samsungTab.boot();
+  print('');
+  samsungTab.takePhoto();
+  samsungTab.recordVideo();
+  print('');
+  samsungTab.makeCall('08987654321'); // Akan memberi peringatan
+  samsungTab.useStylus();
+  samsungTab.touchScreen();
+  samsungTab.enableCellular();
+  samsungTab.checkBattery();
+  print('');
+  samsungTab.shutdown();
+
+  print('\n═══════════ DEMONSTRASI POLIMORFISME ═══════════\n');
+
+  // Polimorfisme: Tablet diperlakukan sebagai Komputer
+  List<Komputer> daftarKomputer = [iPadPro, samsungTab];
   
-  print('=== Spesifikasi Tablet ===');
-  tablet.tampilkanSpesifikasi();
-  tablet.jalankanOS();
-  
-  print('\n=== Fungsi Kamera ===');
-  tablet.ambilFoto();
-  tablet.rekamVideo();
-  
-  print('\n=== Fungsi Telepon ===');
-  tablet.telpon('08123456789');
-  tablet.terimaTelpon();
-  
-  print('\n=== Fitur Khusus Tablet ===');
-  tablet.gunakanStylus();
-  tablet.sentuhLayar();
+  for (var komputer in daftarKomputer) {
+    komputer.displaySpecs();
+    print('---');
+  }
+
+  print('\n═══════════════════════════════════════════════════════');
+  print('                    DEMO SELESAI');
+  print('═══════════════════════════════════════════════════════');
 }
 </pre>
 
