@@ -832,6 +832,10 @@ void main() {
 
     <h2>Latihan</h2>
     <div class="card">
+      <h2>1. Buat abstract/interface class bekerja()Pekerja dengan method abstract/non abstract
+          2. Buat 3 class yang mengimplementasi: Programmer , Dokter , 
+          3. Buat list 
+          List<Pekerja> dan demonstrasikan polimorfisme</h2>
       <h2>Jawaban Soal 1,2,3</h2>
       <pre>
 // Nama: Bagas Putra Andeza
@@ -840,97 +844,122 @@ void main() {
 
 // Soal 1, 2, 3
 abstract class Pekerja {
+  String nama;
+  int umur;
+  
+  Pekerja(this.nama, this.umur);
+  
   void bekerja();
   
-  void istirahat() {
-    print('Sedang istirahat...');
+  void perkenalanDiri() {
+    print("Halo, nama saya $nama, umur $umur tahun.");
   }
   
-  void info() {
-    print('Ini adalah seorang pekerja');
+  void istirahat() {
+    print("$nama sedang istirahat.");
   }
 }
 
-class Programmer implements Pekerja {
-  String nama;
+class Programmer extends Pekerja {
   String bahasaPemrograman;
   
-  Programmer(this.nama, this.bahasaPemrograman);
+  Programmer(String nama, int umur, this.bahasaPemrograman) : super(nama, umur);
   
   @override
   void bekerja() {
-    print('$nama sedang coding dengan $bahasaPemrograman');
+    print("$nama (Programmer) sedang menulis kode menggunakan $bahasaPemrograman");
   }
   
-  @override
-  void istirahat() {
-    print('$nama minum kopi sambil ngoding');
-  }
-  
-  @override
-  void info() {
-    print('$nama adalah seorang Programmer');
+  void debugging() {
+    print("$nama sedang melakukan debugging code");
   }
 }
 
-class Dokter implements Pekerja {
-  String nama;
-  String spesialis;
+class Dokter extends Pekerja {
+  String spesialisasi;
   
-  Dokter(this.nama, this.spesialis);
+  Dokter(String nama, int umur, this.spesialisasi) : super(nama, umur);
   
   @override
   void bekerja() {
-    print('$nama sedang memeriksa pasien $spesialis');
+    print("$nama (Dokter) sedang memeriksa pasien dengan spesialisasi $spesialisasi");
   }
   
-  @override
-  void istirahat() {
-    print('$nama istirahat di ruang dokter');
-  }
-  
-  @override
-  void info() {
-    print('$nama adalah seorang Dokter $spesialis');
+  void operasi() {
+    print("$nama sedang melakukan operasi");
   }
 }
 
-class Guru implements Pekerja {
-  String nama;
+class Guru extends Pekerja {
   String mataPelajaran;
   
-  Guru(this.nama, this.mataPelajaran);
+  Guru(String nama, int umur, this.mataPelajaran) : super(nama, umur);
   
   @override
   void bekerja() {
-    print('$nama sedang mengajar $mataPelajaran');
+    print("$nama (Guru) sedang mengajar mata pelajaran $mataPelajaran");
   }
   
-  @override
-  void istirahat() {
-    print('$nama istirahat di ruang guru');
-  }
-  
-  @override
-  void info() {
-    print('$nama adalah seorang Guru $mataPelajaran');
+  void memberiTugas() {
+    print("$nama sedang memberikan tugas kepada murid");
   }
 }
 
 void main() {
-  print('========== SOAL 1,2,3 ==========');
+  List<Pekerja> daftarPekerja = [];
   
-  List<Pekerja> daftarPekerja = [
-    Programmer('Andi', 'Dart'),
-    Dokter('Budi', 'Jantung'),
-    Guru('Citra', 'Matematika'),
-  ];
+  daftarPekerja.add(Programmer("Budi", 25, "Dart"));
+  daftarPekerja.add(Dokter("Siti", 35, "Jantung"));
+  daftarPekerja.add(Guru("Ahmad", 40, "Matematika"));
+  daftarPekerja.add(Programmer("Citra", 28, "Flutter"));
+  daftarPekerja.add(Dokter("Rini", 45, "Anak"));
+  daftarPekerja.add(Guru("Dewi", 38, "Bahasa Inggris"));
+  
+  print("=== DEMONSTRASI POLIMORFISME ===\n");
   
   for (var pekerja in daftarPekerja) {
-    pekerja.info();
+    pekerja.perkenalanDiri();
     pekerja.bekerja();
     pekerja.istirahat();
-    print('---');
+    print("------------------------");
+  }
+  
+  print("\n=== MENAMPILKAN SEMUA PEKERJA ===\n");
+  tampilkanSemuaPekerja(daftarPekerja);
+  
+  print("\n=== AKSES METHOD KHUSUS ===\n");
+  for (var pekerja in daftarPekerja) {
+    if (pekerja is Programmer) {
+      pekerja.debugging();
+    } else if (pekerja is Dokter) {
+      pekerja.operasi();
+    } else if (pekerja is Guru) {
+      pekerja.memberiTugas();
+    }
+  }
+  
+  print("\n=== MEMBERI TUGAS KHUSUS ===\n");
+  beriTugasSpesial(daftarPekerja[0]);
+  beriTugasSpesial(daftarPekerja[1]);
+  beriTugasSpesial(daftarPekerja[2]);
+}
+
+void beriTugasSpesial(Pekerja pekerja) {
+  print("Tugas spesial untuk ${pekerja.nama}: ");
+  
+  if (pekerja is Programmer) {
+    print("   Buat aplikasi baru dalam 1 minggu!");
+  } else if (pekerja is Dokter) {
+    print("   Tangani 10 pasien hari ini!");
+  } else if (pekerja is Guru) {
+    print("   Buat soal ujian untuk semester depan!");
+  }
+}
+
+void tampilkanSemuaPekerja(List<Pekerja> pekerjaList) {
+  for (int i = 0; i < pekerjaList.length; i++) {
+    Pekerja p = pekerjaList[i];
+    print("${i+1}. ${p.nama} - ${p.runtimeType}");
   }
 }
   </pre>
@@ -938,152 +967,99 @@ void main() {
       <button class="btn" onclick="openModal('22de0c8902ed4fcba0312a2efd0123cd')">
         Lihat Kode
       </button>
-
+<h2>4.buat class "Tablet" (Mewarisi komputer,Kamera dan Telepon)</h2>
 <h2>Jawaban Soal 4</h2>
 <pre>
 // Nama: Bagas Putra Andeza
 // Nim: 251410003
 // Kelas: SI2A
   // Soal 4
+// 1. Class Komputer
 class Komputer {
-  String merk;
   String processor;
   int ram;
-  
-  Komputer(this.merk, this.processor, this.ram);
-  
-  void menyalakan() {
-    print('Komputer $merk menyala');
+
+  Komputer(this.processor, this.ram);
+
+  void jalankanOS() {
+    print('Menjalankan sistem operasi komputer...');
   }
-  
-  void mematikan() {
-    print('Komputer $merk mati');
-  }
-  
-  void menjalankanProgram(String program) {
-    print('Menjalankan $program di komputer $merk');
+
+  void tampilkanSpesifikasi() {
+    print('Processor: $processor, RAM: $ram GB');
   }
 }
 
-class Kamera {
-  int megapixel;
-  String lensa;
-  
-  Kamera(this.megapixel, this.lensa);
-  
-  void mengambilFoto() {
-    print('Mengambil foto dengan kamera $megapixel MP');
-  }
-  
-  void merekamVideo() {
-    print('Merekam video dengan lensa $lensa');
-  }
-}
+// 2. Class Tablet
+class Tablet extends Komputer {
+  bool? stylusMenyala;  // Menggunakan ? untuk nullable
 
-class Telepon {
-  String nomor;
-  String provider;
-  
-  Telepon(this.nomor, this.provider);
-  
-  void menelepon(String tujuan) {
-    print('Menelepon $tujuan dari nomor $nomor');
-  }
-  
-  void mengirimPesan(String tujuan, String pesan) {
-    print('Mengirim pesan ke $tujuan: $pesan');
-  }
-}
+  Tablet(String processor, int ram) : super(processor, ram);
 
-class Tablet implements Komputer, Kamera, Telepon {
-  String nama;
-  String merk;
-  String processor;
-  int ram;
-  int megapixel;
-  String lensa;
-  String nomor;
-  String provider;
-  
-  Tablet({
-    required this.nama,
-    required this.merk,
-    required this.processor,
-    required this.ram,
-    required this.megapixel,
-    required this.lensa,
-    required this.nomor,
-    required this.provider,
-  });
-  
-  @override
-  void menyalakan() {
-    print('Tablet $nama ($merk) menyala');
+  // Fungsi dari Kamera
+  void ambilFoto() {
+    print('Mengambil foto dengan kamera tablet (resolusi tinggi).');
   }
-  
-  @override
-  void mematikan() {
-    print('Tablet $nama ($merk) mati');
+
+  void rekamVideo() {
+    print('Merekam video dengan stabilisasi optik.');
   }
-  
-  @override
-  void menjalankanProgram(String program) {
-    print('Menjalankan $program di tablet $nama');
+
+  // Fungsi dari Telepon
+  void telpon(String nomor) {
+    print('Melakukan panggilan dari tablet ke nomor: $nomor');
   }
-  
-  @override
-  void mengambilFoto() {
-    print('Tablet $nama mengambil foto dengan kamera $megapixel MP');
+
+  void terimaTelpon() {
+    print('Menerima panggilan masuk di tablet.');
   }
-  
-  @override
-  void merekamVideo() {
-    print('Tablet $nama merekam video dengan lensa $lensa');
+
+  // Method tambahan khusus tablet
+  void gunakanStylus() {
+    stylusMenyala = true;
+    print('Stylus aktif, siap menggambar/menulis.');
   }
-  
-  @override
-  void menelepon(String tujuan) {
-    print('Tablet $nama menelepon $tujuan dari nomor $nomor ($provider)');
-  }
-  
-  @override
-  void mengirimPesan(String tujuan, String pesan) {
-    print('Tablet $nama mengirim pesan ke $tujuan: $pesan');
-  }
-  
+
   void sentuhLayar() {
-    print('Menyentuh layar tablet $nama');
+    print('Layar disentuh, gestur dideteksi.');
+  }
+
+  // Override method dari Komputer
+  @override
+  void jalankanOS() {
+    print('Menjalankan Android / iPadOS dengan antarmuka sentuh.');
   }
 }
 
+// Main function
 void main() {
-  print('========== SOAL 4 ==========');
+  Tablet tablet = Tablet('Snapdragon 8 Gen 2', 8);
   
-  Tablet tablet = Tablet(
-    nama: 'iPad Pro',
-    merk: 'Apple',
-    processor: 'M2',
-    ram: 16,
-    megapixel: 12,
-    lensa: 'Wide',
-    nomor: '08123456789',
-    provider: 'Telkomsel',
-  );
+  print('=== Spesifikasi Tablet ===');
+  tablet.tampilkanSpesifikasi();
+  tablet.jalankanOS();
   
-  tablet.menyalakan();
-  tablet.menjalankanProgram('Photoshop');
-  tablet.mengambilFoto();
-  tablet.merekamVideo();
-  tablet.menelepon('08123456788');
-  tablet.mengirimPesan('08123456788', 'Halo dari tablet!');
+  print('\n=== Fungsi Kamera ===');
+  tablet.ambilFoto();
+  tablet.rekamVideo();
+  
+  print('\n=== Fungsi Telepon ===');
+  tablet.telpon('08123456789');
+  tablet.terimaTelpon();
+  
+  print('\n=== Fitur Khusus Tablet ===');
+  tablet.gunakanStylus();
   tablet.sentuhLayar();
-  tablet.mematikan();
 }
 </pre>
 
       <button class="btn" onclick="openModal('dbc8655a276285105b4ec988785cf258')">
         Lihat Kode
       </button>
+    <h2>5.Buat class MathUtils dengan static methods untuk factorial, cek bilangan
+prima, Membulatkan double ke desimal tertentu, Menghasilkan bilangan acak
+integer dan double dalam range [min, max], Menghitung rata-rata dari list angka,
+dan Menghitung median dari list angka</h2>
 <h2>Jawaban Soal 5</h2>
       <pre>
         
@@ -1091,79 +1067,141 @@ void main() {
 // Nim: 251410003
 // Kelas: SI2A
         // Soal 5
+import 'dart:math';
+
 class MathUtils {
+  // 1. Menghitung factorial
   static int factorial(int n) {
-    if (n < 0) throw ArgumentError('Tidak bisa menghitung faktorial bilangan negatif');
+    if (n < 0) throw ArgumentError('Factorial tidak terdefinisi untuk bilangan negatif');
     if (n == 0 || n == 1) return 1;
-    int hasil = 1;
+    
+    int result = 1;
     for (int i = 2; i <= n; i++) {
-      hasil *= i;
+      result *= i;
     }
-    return hasil;
+    return result;
   }
   
-  static bool isPrima(int n) {
-    if (n <= 1) return false;
-    if (n == 2) return true;
-    if (n % 2 == 0) return false;
-    for (int i = 3; i * i <= n; i += 2) {
-      if (n % i == 0) return false;
+  // 2. Cek bilangan prima
+  static bool isPrime(int number) {
+    if (number < 2) return false;
+    if (number == 2) return true;
+    if (number % 2 == 0) return false;
+    
+    for (int i = 3; i <= sqrt(number); i += 2) {
+      if (number % i == 0) return false;
     }
     return true;
   }
   
+  // 3. Membulatkan double ke desimal tertentu
   static double roundToDecimal(double value, int decimalPlaces) {
-    double faktor = 1;
-    for (int i = 0; i < decimalPlaces; i++) {
-      faktor *= 10;
-    }
-    return (value * faktor).round() / faktor;
+    if (decimalPlaces < 0) throw ArgumentError('decimalPlaces harus >= 0');
+    
+    double factor = pow(10, decimalPlaces).toDouble();
+    return (value * factor).roundToDouble() / factor;
   }
   
+  // 4. Menghasilkan bilangan acak integer dalam range [min, max]
   static int randomInt(int min, int max) {
-    return min + (DateTime.now().millisecondsSinceEpoch % (max - min + 1));
+    if (min > max) throw ArgumentError('min harus <= max');
+    
+    final random = Random();
+    return min + random.nextInt(max - min + 1);
   }
   
+  // 5. Menghasilkan bilangan acak double dalam range [min, max]
   static double randomDouble(double min, double max) {
-    return min + (DateTime.now().millisecondsSinceEpoch % 10000) / 10000 * (max - min);
+    if (min > max) throw ArgumentError('min harus <= max');
+    
+    final random = Random();
+    return min + random.nextDouble() * (max - min);
   }
   
-  static double rataRata(List<double> angka) {
-    if (angka.isEmpty) return 0;
-    double sum = 0;
-    for (var a in angka) {
-      sum += a;
+  // 6. Menghitung rata-rata dari list angka
+  static double average(List<num> numbers) {
+    if (numbers.isEmpty) throw ArgumentError('List tidak boleh kosong');
+    
+    num sum = 0;
+    for (var number in numbers) {
+      sum += number;
     }
-    return sum / angka.length;
+    return sum / numbers.length;
   }
   
-  static double median(List<double> angka) {
-    if (angka.isEmpty) return 0;
-    List<double> sorted = List.from(angka)..sort();
-    int tengah = sorted.length ~/ 2;
-    if (sorted.length % 2 == 0) {
-      return (sorted[tengah - 1] + sorted[tengah]) / 2;
+  // 7. Menghitung median dari list angka
+  static double median(List<num> numbers) {
+    if (numbers.isEmpty) throw ArgumentError('List tidak boleh kosong');
+    
+    List<num> sortedNumbers = List.from(numbers)..sort();
+    int length = sortedNumbers.length;
+    
+    if (length % 2 == 0) {
+      // Jumlah data genap
+      int midIndex = length ~/ 2;
+      return (sortedNumbers[midIndex - 1] + sortedNumbers[midIndex]) / 2;
     } else {
-      return sorted[tengah];
+      // Jumlah data ganjil
+      int midIndex = length ~/ 2;
+      return sortedNumbers[midIndex].toDouble();
     }
   }
 }
 
 void main() {
-  print('========== SOAL 5 ==========');
+  // Contoh penggunaan MathUtils
+  print('=== MathUtils Demo ===\n');
   
-  print('Factorial 5: ${MathUtils.factorial(5)}');
-  print('Factorial 7: ${MathUtils.factorial(7)}');
-  print('Apakah 17 prima? ${MathUtils.isPrima(17)}');
-  print('Apakah 20 prima? ${MathUtils.isPrima(20)}');
-  print('3.14159 ke 2 desimal: ${MathUtils.roundToDecimal(3.14159, 2)}');
-  print('Random Int (1-10): ${MathUtils.randomInt(1, 10)}');
-  print('Random Double (0-1): ${MathUtils.randomDouble(0, 1)}');
+  // 1. Factorial
+  print('1. Factorial:');
+  print('   factorial(5) = ${MathUtils.factorial(5)}');
+  print('   factorial(0) = ${MathUtils.factorial(0)}');
+  print('   factorial(7) = ${MathUtils.factorial(7)}\n');
   
-  List<double> nilai = [70, 85, 90, 75, 80, 95];
-  print('List nilai: $nilai');
-  print('Rata-rata: ${MathUtils.rataRata(nilai)}');
-  print('Median: ${MathUtils.median(nilai)}');
+  // 2. Bilangan prima
+  print('2. Bilangan Prima:');
+  print('   isPrime(7) = ${MathUtils.isPrime(7)}');
+  print('   isPrime(10) = ${MathUtils.isPrime(10)}');
+  print('   isPrime(17) = ${MathUtils.isPrime(17)}\n');
+  
+  // 3. Pembulatan double
+  print('3. Pembulatan Double:');
+  print('   roundToDecimal(3.14159, 2) = ${MathUtils.roundToDecimal(3.14159, 2)}');
+  print('   roundToDecimal(2.71828, 3) = ${MathUtils.roundToDecimal(2.71828, 3)}\n');
+  
+  // 4 & 5. Random numbers
+  print('4 & 5. Random Numbers:');
+  print('   randomInt(1, 10) = ${MathUtils.randomInt(1, 10)}');
+  print('   randomDouble(1.0, 5.0) = ${MathUtils.randomDouble(1.0, 5.0).toStringAsFixed(4)}\n');
+  
+  // 6. Rata-rata
+  print('6. Rata-rata:');
+  List<num> scores = [85, 90, 78, 92, 88];
+  print('   Data: $scores');
+  print('   average = ${MathUtils.average(scores).toStringAsFixed(2)}\n');
+  
+  // 7. Median
+  print('7. Median:');
+  List<num> data1 = [3, 1, 4, 1, 5, 9, 2];
+  List<num> data2 = [10, 20, 30, 40];
+  print('   Data ganjil: $data1');
+  print('   median = ${MathUtils.median(data1)}');
+  print('   Data genap: $data2');
+  print('   median = ${MathUtils.median(data2)}\n');
+  
+  // Demonstrasi error handling
+  print('=== Error Handling Demo ===');
+  try {
+    MathUtils.factorial(-1);
+  } catch (e) {
+    print('   Error factorial: $e');
+  }
+  
+  try {
+    MathUtils.average([]);
+  } catch (e) {
+    print('   Error average: $e');
+  }
 }
       </pre>
       <button class="btn" onclick="openModal('338c953c9705e7aa87ca87ef4f3beae4')">
@@ -1178,332 +1216,203 @@ void main() {
 // Nim    : 251410003
 // Kelas  : SI2A
 
-// ==================== ABSTRACT CLASS ====================
+// Abstract class MediaPlayer
 abstract class MediaPlayer {
-  String title;
-  int duration;
+  String name;
+  double duration; // in seconds
   
-  MediaPlayer(this.title, this.duration);
+  MediaPlayer(this.name, this.duration);
   
-  void play();
-  void stop();
-  void showInfo();
-  
-  void displayDuration() {
-    int menit = duration ~/ 60;
-    int detik = duration % 60;
-    print('Durasi: ${menit.toString().padLeft(2, '0')}:${detik.toString().padLeft(2, '0')}');
-  }
+  void displayInfo();
 }
 
-// ==================== INTERFACES ====================
-abstract interface class Playable {
+// Interface Playable
+abstract class Playable {
   void play();
+  void stop();
+}
+
+// Interface Pausable
+abstract class Pausable {
+  void pause();
   void resume();
 }
 
-abstract interface class Pausable {
-  void pause();
-  void resumeFromPause();
-}
-
-// ==================== CLASS IMPLEMENTASI ====================
-class AudioPlayer implements MediaPlayer, Playable, Pausable {
-  @override
-  String title;
+// Class AudioPlayer mengimplementasikan MediaPlayer, Playable, Pausable
+class AudioPlayer extends MediaPlayer implements Playable, Pausable {
+  bool _isPlaying = false;
+  bool _isPaused = false;
+  
+  AudioPlayer(String name, double duration) : super(name, duration);
   
   @override
-  int duration;
-  
-  String formatAudio;
-  int bitrate;
-  bool isPlaying = false;
-  bool isPaused = false;
-  
-  AudioPlayer({
-    required this.title,
-    required this.duration,
-    required this.formatAudio,
-    required this.bitrate,
-  });
-  
-  @override
-  void play() {
-    if (isPaused) {
-      resume();
-    } else {
-      isPlaying = true;
-      isPaused = false;
-      print('🎵 Memutar audio: $title ($formatAudio, ${bitrate}kbps)');
-    }
-  }
-  
-  @override
-  void resume() {
-    if (isPaused) {
-      isPlaying = true;
-      isPaused = false;
-      print('🎵 Melanjutkan audio: $title');
-    }
-  }
-  
-  @override
-  void stop() {
-    isPlaying = false;
-    isPaused = false;
-    print('⏹️ Menghentikan audio: $title');
-  }
-  
-  @override
-  void pause() {
-    if (isPlaying) {
-      isPlaying = false;
-      isPaused = true;
-      print('⏸️ Menjeda audio: $title');
-    }
-  }
-  
-  @override
-  void resumeFromPause() {
-    if (isPaused) {
-      isPlaying = true;
-      isPaused = false;
-      print('▶️ Melanjutkan audio dari jeda: $title');
-    }
-  }
-  
-  @override
-  void showInfo() {
-    print('═══════════════════════════════');
-    print('📻 AUDIO PLAYER');
-    print('═══════════════════════════════');
-    print('Judul: $title');
-    print('Format: $formatAudio');
-    print('Bitrate: ${bitrate}kbps');
-    displayDuration();
-    print('Status: ${isPlaying ? "Playing" : (isPaused ? "Paused" : "Stopped")}');
-    print('═══════════════════════════════');
-  }
-  
-  @override
-  void displayDuration() {
-    int menit = duration ~/ 60;
-    int detik = duration % 60;
-    print('Durasi: ${menit.toString().padLeft(2, '0')}:${detik.toString().padLeft(2, '0')}');
-  }
-  
-  void setVolume(int volume) {
-    print('🔊 Mengatur volume ke $volume%');
-  }
-  
-  void setEqualizer(String mode) {
-    print('🎚️ Mengatur equalizer ke mode: $mode');
-  }
-}
-
-class VideoPlayer implements MediaPlayer, Playable, Pausable {
-  @override
-  String title;
-  
-  @override
-  int duration;
-  
-  String resolusi;
-  String formatVideo;
-  bool isPlaying = false;
-  bool isPaused = false;
-  int currentTime = 0;
-  
-  VideoPlayer({
-    required this.title,
-    required this.duration,
-    required this.resolusi,
-    required this.formatVideo,
-  });
-  
-  @override
-  void play() {
-    if (isPaused) {
-      resume();
-    } else {
-      isPlaying = true;
-      isPaused = false;
-      print('🎬 Memutar video: $title ($resolusi, $formatVideo)');
-    }
-  }
-  
-  @override
-  void resume() {
-    if (isPaused) {
-      isPlaying = true;
-      isPaused = false;
-      print('🎬 Melanjutkan video: $title');
-    }
-  }
-  
-  @override
-  void stop() {
-    isPlaying = false;
-    isPaused = false;
-    currentTime = 0;
-    print('⏹️ Menghentikan video: $title');
-  }
-  
-  @override
-  void pause() {
-    if (isPlaying) {
-      isPlaying = false;
-      isPaused = true;
-      print('⏸️ Menjeda video: $title');
-    }
-  }
-  
-  @override
-  void resumeFromPause() {
-    if (isPaused) {
-      isPlaying = true;
-      isPaused = false;
-      print('▶️ Melanjutkan video dari jeda: $title');
-    }
-  }
-  
-  @override
-  void showInfo() {
-    print('═══════════════════════════════');
-    print('📺 VIDEO PLAYER');
-    print('═══════════════════════════════');
-    print('Judul: $title');
-    print('Resolusi: $resolusi');
-    print('Format: $formatVideo');
-    displayDuration();
-    print('Status: ${isPlaying ? "Playing" : (isPaused ? "Paused" : "Stopped")}');
-    print('═══════════════════════════════');
-  }
-  
-  @override
-  void displayDuration() {
-    int menit = duration ~/ 60;
-    int detik = duration % 60;
-    print('Durasi: ${menit.toString().padLeft(2, '0')}:${detik.toString().padLeft(2, '0')}');
-  }
-  
-  void setQuality(String quality) {
-    print('📺 Mengubah kualitas video ke: $quality');
-  }
-  
-  void seekTo(int seconds) {
-    if (seconds >= 0 && seconds <= duration) {
-      currentTime = seconds;
-      int menit = seconds ~/ 60;
-      int detik = seconds % 60;
-      print('⏩ Lompat ke ${menit.toString().padLeft(2, '0')}:${detik.toString().padLeft(2, '0')}');
-    } else {
-      print('❌ Waktu tidak valid!');
-    }
-  }
-  
-  void fullscreen() {
-    print('🖥️ Mode layar penuh aktif');
-  }
-}
-
-// ==================== MAIN PROGRAM ====================
-void main() {
-  print('═══════════════════════════════════════════════════════');
-  print('        MEDIA PLAYER SYSTEM DEMONSTRATION');
-  print('═══════════════════════════════════════════════════════\n');
-  
-  AudioPlayer audio = AudioPlayer(
-    title: 'Imagine - John Lennon',
-    duration: 183,
-    formatAudio: 'MP3',
-    bitrate: 320,
-  );
-  
-  VideoPlayer video = VideoPlayer(
-    title: 'Inception Final Scene',
-    duration: 420,
-    resolusi: '1920x1080',
-    formatVideo: 'MP4',
-  );
-  
-  print('══════════════ AUDIO PLAYER DEMO ══════════════\n');
-  audio.showInfo();
-  print('');
-  audio.play();
-  audio.pause();
-  audio.resumeFromPause();
-  audio.setVolume(75);
-  audio.setEqualizer('Rock');
-  audio.stop();
-  print('');
-  
-  print('══════════════ VIDEO PLAYER DEMO ══════════════\n');
-  video.showInfo();
-  print('');
-  video.play();
-  video.pause();
-  video.resumeFromPause();
-  video.seekTo(120);
-  video.setQuality('4K');
-  video.fullscreen();
-  video.stop();
-  print('');
-  
-  print('══════════ POLIMORFISME DEMO ══════════════════\n');
-  
-  List<MediaPlayer> daftarMedia = [
-    AudioPlayer(
-      title: 'Bohemian Rhapsody',
-      duration: 355,
-      formatAudio: 'FLAC',
-      bitrate: 1411,
-    ),
-    VideoPlayer(
-      title: 'Interstellar Trailer',
-      duration: 180,
-      resolusi: '3840x2160',
-      formatVideo: 'MKV',
-    ),
-    AudioPlayer(
-      title: 'Shape of You',
-      duration: 228,
-      formatAudio: 'AAC',
-      bitrate: 256,
-    ),
-  ];
-  
-  for (var media in daftarMedia) {
-    print('Memutar: ${media.title}');
-    media.displayDuration();
+  void displayInfo() {
+    print('Audio Player: $name');
+    print('Duration: ${duration.toStringAsFixed(2)} seconds');
+    print('Status: ${_getStatus()}');
     print('---');
   }
   
-  print('\n══════════ INTERFACE DEMO ══════════════════════\n');
-  
-  List<Playable> playableList = [audio, video];
-  
-  for (var item in playableList) {
-    print('Memulai pemutaran...');
-    item.play();
-    print('');
+  String _getStatus() {
+    if (_isPlaying) return 'Playing';
+    if (_isPaused) return 'Paused';
+    return 'Stopped';
   }
   
-  print('══════════ PAUSABLE DEMO ══════════════════════\n');
-  
-  List<Pausable> pausableList = [audio, video];
-  
-  for (var item in pausableList) {
-    print('Menjeda pemutaran...');
-    item.pause();
-    print('Melanjutkan...');
-    item.resumeFromPause();
-    print('');
+  @override
+  void play() {
+    if (_isPaused) {
+      print('Resuming audio: $name');
+      _isPaused = false;
+      _isPlaying = true;
+    } else if (!_isPlaying) {
+      print('Playing audio: $name');
+      _isPlaying = true;
+    } else {
+      print('Audio is already playing: $name');
+    }
   }
   
-  print('═══════════════════════════════════════════════════════');
-  print('                    DEMO SELESAI');
-  print('═══════════════════════════════════════════════════════');
+  @override
+  void stop() {
+    if (_isPlaying || _isPaused) {
+      print('Stopping audio: $name');
+      _isPlaying = false;
+      _isPaused = false;
+    } else {
+      print('Audio is already stopped: $name');
+    }
+  }
+  
+  @override
+  void pause() {
+    if (_isPlaying && !_isPaused) {
+      print('Pausing audio: $name');
+      _isPaused = true;
+      _isPlaying = false;
+    } else {
+      print('Cannot pause audio: $name (not playing)');
+    }
+  }
+  
+  @override
+  void resume() {
+    if (_isPaused) {
+      print('Resuming audio: $name');
+      _isPaused = false;
+      _isPlaying = true;
+    } else {
+      print('Cannot resume audio: $name (not paused)');
+    }
+  }
+}
+
+// Class VideoPlayer mengimplementasikan MediaPlayer, Playable, Pausable
+class VideoPlayer extends MediaPlayer implements Playable, Pausable {
+  String resolution;
+  bool _isPlaying = false;
+  bool _isPaused = false;
+  
+  VideoPlayer(String name, double duration, this.resolution) : super(name, duration);
+  
+  @override
+  void displayInfo() {
+    print('Video Player: $name');
+    print('Duration: ${duration.toStringAsFixed(2)} seconds');
+    print('Resolution: $resolution');
+    print('Status: ${_getStatus()}');
+    print('---');
+  }
+  
+  String _getStatus() {
+    if (_isPlaying) return 'Playing';
+    if (_isPaused) return 'Paused';
+    return 'Stopped';
+  }
+  
+  @override
+  void play() {
+    if (_isPaused) {
+      print('Resuming video: $name');
+      _isPaused = false;
+      _isPlaying = true;
+    } else if (!_isPlaying) {
+      print('Playing video: $name at $resolution');
+      _isPlaying = true;
+    } else {
+      print('Video is already playing: $name');
+    }
+  }
+  
+  @override
+  void stop() {
+    if (_isPlaying || _isPaused) {
+      print('Stopping video: $name');
+      _isPlaying = false;
+      _isPaused = false;
+    } else {
+      print('Video is already stopped: $name');
+    }
+  }
+  
+  @override
+  void pause() {
+    if (_isPlaying && !_isPaused) {
+      print('Pausing video: $name');
+      _isPaused = true;
+      _isPlaying = false;
+    } else {
+      print('Cannot pause video: $name (not playing)');
+    }
+  }
+  
+  @override
+  void resume() {
+    if (_isPaused) {
+      print('Resuming video: $name');
+      _isPaused = false;
+      _isPlaying = true;
+    } else {
+      print('Cannot resume video: $name (not paused)');
+    }
+  }
+}
+
+// Main function untuk testing
+void main() {
+  print('=== MEDIA PLAYER SYSTEM ===\n');
+  
+  // Create audio player
+  AudioPlayer audioPlayer = AudioPlayer('Song - Imagine', 215.5);
+  audioPlayer.displayInfo();
+  
+  // Test audio player controls
+  audioPlayer.play();
+  audioPlayer.pause();
+  audioPlayer.resume();
+  audioPlayer.stop();
+  audioPlayer.stop(); // Test stop when already stopped
+  print('');
+  
+  // Create video player
+  VideoPlayer videoPlayer = VideoPlayer('Movie - Inception', 8880.0, '1920x1080');
+  videoPlayer.displayInfo();
+  
+  // Test video player controls
+  videoPlayer.play();
+  videoPlayer.pause();
+  videoPlayer.resume();
+  videoPlayer.stop();
+  videoPlayer.pause(); // Test pause when stopped
+  print('');
+  
+  // Demonstrate polymorphism
+  print('=== POLYMORPHISM DEMONSTRATION ===');
+  List<MediaPlayer> mediaList = [audioPlayer, videoPlayer];
+  
+  for (var media in mediaList) {
+    media.displayInfo();
+  }
 }
   </pre>
 
