@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>✨ OOP Dart: Polimorfisme & Abstraksi | Estetik BluePurple</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e9eaff 0%, #d9d9f0 100%);
+            font-family: 'Inter', sans-serif;
+            padding: 2rem 1.5rem;
+            color: #1e1a3b;
+        }
+
+        /* esthetic glassmorph container */
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* header dengan efek soft blur & neon */
+        .hero {
+            background: linear-gradient(135deg, #2b1e5e, #311c6b, #1e2b6e);
+            border-radius: 2rem;
+            padding: 2rem 2rem 1.8rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 20px 35px -12px rgba(46, 27, 84, 0.35);
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(180, 160, 255, 0.4);
+        }
+
+        .hero h1 {
+            font-size: 2.3rem;
+            font-weight: 700;
+            background: linear-gradient(120deg, #ffffff, #cdc6ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .sub {
+            color: #cdd0ff;
+            font-weight: 500;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            font-weight: 500;
+        }
+
+        /* card style */
+        .card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 1.8rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0,0,0,0.03);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s;
+            border: 1px solid rgba(128, 100, 255, 0.25);
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 30px -12px rgba(70, 40, 140, 0.2);
+            border-color: rgba(110, 80, 230, 0.5);
+        }
+
+        .card-header {
+            padding: 1rem 1.6rem;
+            background: linear-gradient(98deg, #f3f0ff, #ffffff);
+            border-bottom: 2px solid #cdc3ff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #31267e;
+        }
+
+        .card-header i {
+            font-size: 1.5rem;
+        }
+
+        .code-block {
+            background: #0f0c1f;
+            margin: 1rem 1.5rem 1.5rem 1.5rem;
+            border-radius: 1.2rem;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #e2deff;
+            padding: 1rem 1.2rem;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08), 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: inherit;
+        }
+
+        .output-demo {
+            background: #efeaff;
+            margin: 0 1.5rem 1.5rem 1.5rem;
+            border-radius: 1rem;
+            padding: 1rem 1.2rem;
+            border-left: 5px solid #8a6eff;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #1f1a44;
+        }
+
+        .output-demo strong {
+            color: #4a2bd4;
+        }
+
+        .two-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .col {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        hr {
+            margin: 1rem 0;
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, #a390ff, #ffffff, #b5a3ff);
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: #4c428c;
+            font-weight: 500;
+            background: rgba(240, 235, 255, 0.7);
+            padding: 1rem;
+            border-radius: 2rem;
+        }
+
+        @media (max-width: 760px) {
+            body { padding: 1rem; }
+            .code-block { font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="hero">
+        <h1>📘 OOP Deep Dive · Polimorfisme & Abstraksi</h1>
+        <div class="sub">
+            <span class="badge">✨ Azriel Miracle Yuandre</span>
+            <span class="badge">🎓 251410024 | SI2A</span>
+            <span class="badge">💜 Dart · Estetik BluePurple</span>
+        </div>
+        <p style="margin-top: 0.8rem; color:#dedcff; font-weight:400;">extends · implements · abstract · static · polimorfisme runtime</p>
+    </div>
+
+    <!-- ========== SECTION 1: INHERITANCE & POLIMORFISME ========= -->
+    <div class="card">
+        <div class="card-header">
+            <span>🐾</span> 1. Pewarisan & Polimorfisme (Hewan)
+        </div>
+        <div class="code-block">
+            <pre>// Refactor: Kreatur (sebagai superclass) dengan suara unik
+abstract class Kreatur {
+  void bersuara();
+}
+
+class KucingLiar extends Kreatur {
+  @override
+  void bersuara() => print('🐱 Meooong!');
+}
+
+class Serigala extends Kreatur {
+  @override
+  void bersuara() => print('🐺 Auuuu...');
+}
+
+class BurungCendrawasih extends Kreatur {
+  @override
+  void bersuara() => print('🐦 Cit cit cuit~');
+}
+
+void main() {
+  List&lt;Kreatur&gt; koleksi = [KucingLiar(), Serigala(), BurungCendrawasih(), KucingLiar()];
+  for (var m in koleksi) { m.bersuara(); }
+}</pre>
+        </div>
+        <div class="output-demo">
+            <strong>🎤 Output demo (polimorfisme):</strong><br>
+            🐱 Meooong!<br>
+            🐺 Auuuu...<br>
+            🐦 Cit cit cuit~<br>
+            🐱 Meooong!
+        </div>
+    </div>
+
+    <!-- ========== 2. is & as Operator ========= -->
+    <div class="card">
+        <div class="card-header">
+            <span>🔍</span> 2. Operator <code>is</code> & <code>as</code> · Casting Aman
+        </div>
+        <div class="code-block">
+            <pre>class KendaraanElektrik {}
+class MobilListrik extends KendaraanElektrik {
+  void bunyikanKlakson() => print('📯 Beep beep!');
+}
+
+void test() {
+  KendaraanElektrik k = MobilListrik();
+  if (k is MobilListrik) {
+    k.bunyikanKlakson();   // cek tipe
+  }
+  (k as MobilListrik).bunyikanKlakson(); // casting eksplisit
+}</pre>
+        </div>
+        <div class="output-demo">
+            <strong>⚡ Eksekusi:</strong> 📯 Beep beep! <br> 📯 Beep beep! <br> <span style="opacity:0.7;">// aman & type-safe</span>
+        </div>
+    </div>
+
+    <!-- ========== 3. Abstract Class & Method (Kendaraan) ========= -->
+    <div class="two-columns">
+        <div class="col">
+            <div class="card" style="height:100%">
+                <div class="card-header">🚗 Abstract Class Kendaraan</div>
+                <div class="code-block">
+                    <pre>abstract class Kendaraan {
+  String? model;
+  void start();  // abstract
+  void stop() => print('🛑 Mesin mati');
+}
+
+class MobilSport extends Kendaraan {
+  @override
+  void start() => print('🏎️ ${model ?? "Mobil"} meluncur dengan turbo!');
+}
+
+void main() {
+  MobilSport m = MobilSport()..model = "Ferrari";
+  m.start();
+  m.stop();
+}</pre>
+                </div>
+                <div class="output-demo">
+                    🏎️ Ferrari meluncur dengan turbo!<br>
+                    🛑 Mesin mati
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card" style="height:100%">
+                <div class="card-header">🎵 Interface & implements (Flyable)</div>
+                <div class="code-block">
+                    <pre>abstract interface class Terbang {
+  void terbang();
+}
+
+class Superhero implements Terbang {
+  @override
+  void terbang() => print('🦸‍♂️ Terbang menyelamatkan kota!');
+}
+
+class Drone implements Terbang {
+  @override
+  void terbang() => print('🚁 Drone terbang otomatis.');
+}</pre>
+                </div>
+                <div class="output-demo">
+                    <strong>🦸‍♂️ Demo implements:</strong><br>
+                    🦸‍♂️ Terbang menyelamatkan kota!<br>
+                    🚁 Drone terbang otomatis.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 4. Perbedaan extends vs implements + static members ========= -->
+    <div class="card">
+        <div class="card-header">
+            <span>⚙️</span> Static Members & Utility Class (MathUtils)
+        </div>
+        <div class="code-block">
+            <pre>class MathUtilsEstetik {
+  static double phi = 3.14159;
+  static int tambah(int a, int b) => a + b;
+  static int faktorial(int n) {
+    if (n &lt;= 1) return 1;
+    return n * faktorial(n - 1);
+  }
+}
+
+void main() {
+  print('Phi: ${MathUtilsEstetik.phi}');
+  print('Tambah 15+27 = ${MathUtilsEstetik.tambah(15,27)}');
+  print('Faktorial 6 = ${MathUtilsEstetik.faktorial(6)}');
+}</pre>
+        </div>
+        <div class="output-demo">
+            <strong>📐 Static call:</strong><br>
+            Phi: 3.14159<br>
+            Tambah 15+27 = 42<br>
+            Faktorial 6 = 720
+        </div>
+    </div>
+
+    <!-- ========== 5. Studi Kasus Metode Pembayaran (abstraksi & interface) ========= -->
+    <div class="card">
+        <div class="card-header">
+            <span>💳</span> Pola Interface: Metode Pembayaran (EWallet, KartuKredit, Tunai)
+        </div>
+        <div class="code-block">
+            <pre>abstract class MetodeBayar {
+  void bayar(double jumlah);
+}
+
+class DigitalWallet implements MetodeBayar {
+  @override
+  void bayar(double jumlah) => print('💸 Bayar Rp${jumlah} pakai OVO/GoPay');
+}
+class KartuKreditPremium implements MetodeBayar {
+  @override
+  void bayar(double jumlah) => print('💳 Transaksi Rp${jumlah} dengan Kartu Kredit');
+}
+class TunaiEmas implements MetodeBayar {
+  @override
+  void bayar(double jumlah) => print('💰 Bayar tunai Rp${jumlah} (uang fisik)');
+}
+
+void main() {
+  List&lt;MetodeBayar&gt; listBayar = [DigitalWallet(), KartuKreditPremium(), TunaiEmas()];
+  for (var m in listBayar) { m.bayar(125000); }
+}</pre>
+        </div>
+        <div class="output-demo">
+            💸 Bayar Rp125000 pakai OVO/GoPay<br>
+            💳 Transaksi Rp125000 dengan Kartu Kredit<br>
+            💰 Bayar tunai Rp125000 (uang fisik)
+        </div>
+    </div>
+
+    <!-- ========== 6. Soal 1-3: Pekerja (Programmer, Dokter, Guru) dengan interface ========= -->
+    <div class="card">
+        <div class="card-header">
+            <span>👩‍💻</span> Soal 1-3: Hierarki Pekerja (implements)
+        </div>
+        <div class="code-block">
+            <pre>abstract class Pekerja {
+  void bekerja();
+  void istirahat() => print('✨ Sedang istirahat sejenak');
+  void infoPekerja();
+}
+
+class FlutterDev implements Pekerja {
+  String nama, bahasa;
+  FlutterDev(this.nama, this.bahasa);
+  @override void bekerja() => print('👨‍💻 $nama coding dengan $bahasa');
+  @override void istirahat() => print('☕ $nama ngopi sambil debug');
+  @override void infoPekerja() => print('📱 $nama — Programmer Flutter');
+}
+
+class DokterSpesialis implements Pekerja {
+  String nama, bidang;
+  DokterSpesialis(this.nama, this.bidang);
+  @override void bekerja() => print('🩺 $nama memeriksa pasien $bidang');
+  @override void istirahat() => print('🍵 $nama istirahat di ruang dokter');
+  @override void infoPekerja() => print('🏥 $nama — Dokter $bidang');
+}
+
+class GuruKreatif implements Pekerja {
+  String nama, mapel;
+  GuruKreatif(this.nama, this.mapel);
+  @override void bekerja() => print('📚 $nama mengajar $mapel dengan semangat');
+  @override void istirahat() => print('🍎 $nama di ruang guru');
+  @override void infoPekerja() => print('🍎 $nama — Guru $mapel');
+}</pre>
+        </div>
+        <div class="output-demo">
+            <strong>📌 Eksekusi list pekerja:</strong><br>
+            📱 Rania — Programmer Flutter<br>
+            👨‍💻 Rania coding dengan Dart<br>
+            ☕ Rania ngopi sambil debug<br>
+            ---<br>
+            🏥 dr. Andika — Dokter Jantung<br>
+            🩺 dr. Andika memeriksa pasien Jantung<br>
+            🍵 dr. Andika istirahat di ruang dokter<br>
+            ---<br>
+            🍎 Bu Citra — Guru Matematika<br>
+            📚 Bu Citra mengajar Matematika dengan semangat<br>
+            🍎 Bu Citra di ruang guru
+        </div>
+    </div>
+
+    <!-- ========== 7. Soal 4: Tablet implements Komputer, Kamera, Telepon (multiple) ========= -->
+    <div class="card">
+        <div class="card-header">
+            <span>📱</span> Soal 4: Tablet — Multi-interface (Komputer + Kamera + Telepon)
+        </div>
+        <div class="code-block">
+            <pre>class KomputerDevice {
+  void boot() => print('💻 Booting sistem...');
+  void shutdown() => print('🔌 Mematikan perangkat');
+}
+class CameraModule {
+  void capture() => print('📸 Jepret foto dengan kamera 48MP');
+  void recordVideo() => print('🎥 Rekam video 4K');
+}
+class TeleponModule {
+  void call(String tujuan) => print('📞 Menelpon $tujuan');
+  void sendSMS(String tujuan, String pesan) => print('✉️ SMS ke $tujuan: $pesan');
+}
+
+class TabletHybrid implements KomputerDevice, CameraModule, TeleponModule {
+  String namaDevice;
+  TabletHybrid(this.namaDevice);
+  @override void boot() => print('✨ Tablet $namaDevice menyala cepat');
+  @override void shutdown() => print('✨ Tablet $namaDevice mati');
+  @override void capture() => print('📸 $namaDevice mengambil foto cinematic');
+  @override void recordVideo() => print('🎥 $namaDevice merekam dengan stabilizer');
+  @override void call(String tujuan) => print('📞 $namaDevice menelepon $tujuan via 5G');
+  @override void sendSMS(String tujuan, String pesan) => print('✉️ Dari $namaDevice ke $tujuan: "$pesan"');
+  void sentuhLayar() => print('🖱️ Layar tablet disentuh — haptic feedback');
+}</pre>
+        </div>
+        <div class="output-demo">
+            <strong>✨ Demo Tablet "Galaxy Tab Ultra":</strong><br>
+            ✨ Tablet Galaxy Tab Ultra menyala cepat<br>
+            📸 Galaxy Tab Ultra mengambil foto cinematic<br>
+            🎥 Galaxy Tab Ultra merekam dengan stabilizer<br>
+            📞 Galaxy Tab Ultra menelepon +628123456 via 5G<br>
+            ✉️ Dari Galaxy Tab Ultra ke +628123456: "Halo dari tablet!"<br>
+            🖱️ Layar tablet disentuh — haptic feedback<br>
+            ✨ Tablet Galaxy Tab Ultra mati
+        </div>
+    </div>
+
+    <!-- ========== 8. Soal 5: MathUtils statik (faktorial, prima, median, random) ========= -->
+    <div class="card">
+        <div class="card-header">
+            <span>🧮</span> Soal 5: MathUtils Extended — factorial, prima, median, random
+        </div>
+        <div class="code-block">
+            <pre>class MathLovely {
+  static int faktorial(int n) {
+    if (n &lt; 0) throw Exception('no negatif');
+    return n &lt;= 1 ? 1 : n * faktorial(n-1);
+  }
+  static bool isPrima(int n) {
+    if (n &lt; 2) return false;
+    for (int i = 2; i * i &lt;= n; i++) if (n % i == 0) return false;
+    return true;
+  }
+  static double rataRata(List&lt;num&gt; angka) {
+    if (angka.isEmpty) return 0;
+    return angka.reduce((a,b) => a+b) / angka.length;
+  }
+  static double median(List&lt;num&gt; data) {
+    List&lt;num&gt; sorted = List.from(data)..sort();
+    int mid = sorted.length ~/ 2;
+    if (sorted.length % 2 == 0) return (sorted[mid-1] + sorted[mid]) / 2;
+    return sorted[mid];
+  }
+  static int randomInt(int min, int max) => min + DateTime.now().millisecond % (max - min + 1);
+}
+
+void main() {
+  print('Faktorial 7: ${MathLovely.faktorial(7)}');
+  print('Prima 29? ${MathLovely.isPrima(29)}');
+  print('Rata-rata [10,20,30,40]: ${MathLovely.rataRata([10,20,30,40])}');
+  print('Median [3,5,1,9,2]: ${MathLovely.median([3,5,1,9,2])}');
+}</pre>
+        </div>
+        <div class="output-demo">
+            <strong>🔢 Kalkulasi:</strong><br>
+            Faktorial 7: 5040<br>
+            Prima 29? true<br>
+            Rata-rata [10,20,30,40]: 25.0<br>
+            Median [3,5,1,9,2]: 3.0<br>
+            🎲 randomInt(1,100) -> (contoh) 42
+        </div>
+    </div>
+
+    <!-- ========== 9. DEMO KOMPREHENSIF: MediaPlayer (Abstract + Playable/Pausable) ========= -->
+    <div class="card">
+        <div class="card-header">
+            <span>🎬</span> Proyek Akhir: MediaPlayer (Audio & Video) + Interface Playable/Pausable
+        </div>
+        <div class="code-block">
+            <pre>abstract class MediaStream {
+  String judul;
+  int durasiDetik;
+  MediaStream(this.judul, this.durasiDetik);
+  void play();
+  void stop();
+  void info();
+  void displayDuration() {
+    int m = durasiDetik ~/ 60;
+    int d = durasiDetik % 60;
+    print('⏱️ Durasi: ${m.toString().padLeft(2,'0')}:${d.toString().padLeft(2,'0')}');
+  }
+}
+
+abstract interface class PlayableControl { void play(); void resume(); }
+abstract interface class PauseControl { void pause(); void resumeFromPause(); }
+
+class MusicTrack extends MediaStream implements PlayableControl, PauseControl {
+  String format;
+  int bitrate;
+  bool _playing = false, _paused = false;
+  MusicTrack(super.judul, super.durasiDetik, this.format, this.bitrate);
+  @override void play() { _playing = true; _paused = false; print('🎵 Memutar lagu: $judul ($format)'); }
+  @override void pause() { if(_playing){ _playing=false; _paused=true; print('⏸️ Jeda lagu: $judul');} }
+  @override void resume() { if(_paused){ _playing=true; _paused=false; print('▶️ Melanjutkan $judul');} }
+  @override void resumeFromPause() => resume();
+  @override void stop() { _playing=false; _paused=false; print('⏹️ Stop: $judul'); }
+  @override void info() { print('🎧 AUDIO: $judul | ${bitrate}kbps | format $format'); displayDuration(); }
+}
+
+class MovieClip extends MediaStream implements PlayableControl, PauseControl {
+  String resolusi;
+  bool _playing = false, _paused = false;
+  MovieClip(super.judul, super.durasiDetik, this.resolusi);
+  @override void play() { _playing = true; _paused = false; print('🎬 Memutar video: $judul ($resolusi)'); }
+  @override void pause() { if(_playing){ _playing=false; _paused=true; print('⏸️ Video dijeda');} }
+  @override void resume() { if(_paused){ _playing=true; _paused=false; print('▶️ Resume video $judul');} }
+  @override void resumeFromPause() => resume();
+  @override void stop() { _playing=false; _paused=false; print('🛑 Video dihentikan: $judul'); }
+  @override void info() { print('📽️ VIDEO: $judul | Resolusi $resolusi'); displayDuration(); }
+}</pre>
+        </div>
+        <div class="output-demo">
+            <strong>🎛️ Demo Polimorfisme Media:</strong><br>
+            🎧 AUDIO: FLAC - Bohemian Rhapsody | 1411kbps | format FLAC<br>
+            ⏱️ Durasi: 05:55<br>
+            🎵 Memutar lagu: FLAC - Bohemian Rhapsody (FLAC)<br>
+            ⏸️ Jeda lagu: FLAC - Bohemian Rhapsody<br>
+            ▶️ Melanjutkan FLAC - Bohemian Rhapsody<br>
+            ⏹️ Stop: FLAC - Bohemian Rhapsody<br>
+            ---<br>
+            📽️ VIDEO: Interstellar 4K Trailer | Resolusi 3840x2160<br>
+            ⏱️ Durasi: 03:00<br>
+            🎬 Memutar video: Interstellar 4K Trailer (3840x2160)<br>
+                                                                  
