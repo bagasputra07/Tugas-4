@@ -835,124 +835,103 @@ void main() {
 // Nim: 251410003
 // Kelas: SI2A
 
+// Nama : Muhammad Bagas Putra Andeza
+// NIM  : 251410003
+// Kelas: SI2A
+
 // Soal 1, 2, 3
 abstract class Pekerja {
-  String nama;
-  int umur;
-  
-  Pekerja(this.nama, this.umur);
-  
   void bekerja();
   
-  void perkenalanDiri() {
-    print("Halo, nama saya $nama, umur $umur tahun.");
+  void istirahat() {
+    print('Sedang istirahat...');
   }
   
-  void istirahat() {
-    print("$nama sedang istirahat.");
+  void info() {
+    print('Ini adalah seorang pekerja');
   }
 }
 
-class Programmer extends Pekerja {
+class Programmer implements Pekerja {
+  String nama;
   String bahasaPemrograman;
   
-  Programmer(String nama, int umur, this.bahasaPemrograman) : super(nama, umur);
+  Programmer(this.nama, this.bahasaPemrograman);
   
   @override
   void bekerja() {
-    print("$nama (Programmer) sedang menulis kode menggunakan $bahasaPemrograman");
+    print('$nama sedang coding dengan Java Script $bahasaPemrograman');
   }
   
-  void debugging() {
-    print("$nama sedang melakukan debugging code");
+  @override
+  void istirahat() {
+    print('$nama minum Susu Ultra Milk sambil ngoding');
+  }
+  
+  @override
+  void info() {
+    print('$nama adalah seorang Programmer Profesional Kelas 1');
   }
 }
 
-class Dokter extends Pekerja {
-  String spesialisasi;
+class Dokter implements Pekerja {
+  String nama;
+  String spesialis;
   
-  Dokter(String nama, int umur, this.spesialisasi) : super(nama, umur);
+  Dokter(this.nama, this.spesialis);
   
   @override
   void bekerja() {
-    print("$nama (Dokter) sedang memeriksa pasien dengan spesialisasi $spesialisasi");
+    print('$nama sedang memeriksa pasien di ruangan 5 $spesialis');
   }
   
-  void operasi() {
-    print("$nama sedang melakukan operasi");
+  @override
+  void istirahat() {
+    print('$nama istirahat di ruang dokter nomor 3');
+  }
+  
+  @override
+  void info() {
+    print('$nama adalah seorang Dokter Sarjana Kesehatan $spesialis');
   }
 }
 
-class Guru extends Pekerja {
+class Guru implements Pekerja {
+  String nama;
   String mataPelajaran;
   
-  Guru(String nama, int umur, this.mataPelajaran) : super(nama, umur);
+  Guru(this.nama, this.mataPelajaran);
   
   @override
   void bekerja() {
-    print("$nama (Guru) sedang mengajar mata pelajaran $mataPelajaran");
+    print('$nama sedang mengajar di ruangan $mataPelajaran');
   }
   
-  void memberiTugas() {
-    print("$nama sedang memberikan tugas kepada murid");
+  @override
+  void istirahat() {
+    print('$nama istirahat di ruang guru di lantai 2');
+  }
+  
+  @override
+  void info() {
+    print('$nama adalah seorang Guru Magister $mataPelajaran');
   }
 }
 
 void main() {
-  List<Pekerja> daftarPekerja = [];
+  print('========== SOAL 1,2,3 ==========');
   
-  daftarPekerja.add(Programmer("Budi", 25, "Dart"));
-  daftarPekerja.add(Dokter("Siti", 35, "Jantung"));
-  daftarPekerja.add(Guru("Ahmad", 40, "Matematika"));
-  daftarPekerja.add(Programmer("Citra", 28, "Flutter"));
-  daftarPekerja.add(Dokter("Rini", 45, "Anak"));
-  daftarPekerja.add(Guru("Dewi", 38, "Bahasa Inggris"));
-  
-  print("=== DEMONSTRASI POLIMORFISME ===\n");
+  List daftarPekerja = [
+    Programmer('Gram', 'Dart'),
+    Dokter('Excalibur', 'Jantung'),
+    Guru('Diana', 'Matematika'),
+  ];
   
   for (var pekerja in daftarPekerja) {
-    pekerja.perkenalanDiri();
+    pekerja.info();
     pekerja.bekerja();
     pekerja.istirahat();
-    print("------------------------");
-  }
-  
-  print("\n=== MENAMPILKAN SEMUA PEKERJA ===\n");
-  tampilkanSemuaPekerja(daftarPekerja);
-  
-  print("\n=== AKSES METHOD KHUSUS ===\n");
-  for (var pekerja in daftarPekerja) {
-    if (pekerja is Programmer) {
-      pekerja.debugging();
-    } else if (pekerja is Dokter) {
-      pekerja.operasi();
-    } else if (pekerja is Guru) {
-      pekerja.memberiTugas();
-    }
-  }
-  
-  print("\n=== MEMBERI TUGAS KHUSUS ===\n");
-  beriTugasSpesial(daftarPekerja[0]);
-  beriTugasSpesial(daftarPekerja[1]);
-  beriTugasSpesial(daftarPekerja[2]);
-}
-
-void beriTugasSpesial(Pekerja pekerja) {
-  print("Tugas spesial untuk ${pekerja.nama}: ");
-  
-  if (pekerja is Programmer) {
-    print("   Buat aplikasi baru dalam 1 minggu!");
-  } else if (pekerja is Dokter) {
-    print("   Tangani 10 pasien hari ini!");
-  } else if (pekerja is Guru) {
-    print("   Buat soal ujian untuk semester depan!");
-  }
-}
-
-void tampilkanSemuaPekerja(List<Pekerja> pekerjaList) {
-  for (int i = 0; i < pekerjaList.length; i++) {
-    Pekerja p = pekerjaList[i];
-    print("${i+1}. ${p.nama} - ${p.runtimeType}");
+    print('---');
   }
 }
   </pre>
